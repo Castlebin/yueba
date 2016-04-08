@@ -28,7 +28,7 @@ public class Activity extends BaseEntity {
     private String pic;
 
     // 活动参与人数上限，为null时表示无限制
-    private Integer limit;
+    private Integer peopleLimit;
 
     // 活动参与人年龄下限
     private Integer minAge = 18;
