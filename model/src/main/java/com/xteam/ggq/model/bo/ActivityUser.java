@@ -11,6 +11,13 @@ import java.math.BigDecimal;
 @Setter
 public class ActivityUser extends BaseEntity {
 
+    public ActivityUser() {}
+
+    public ActivityUser(Long activityId, String username) {
+        this.activityId = activityId;
+        this.username = username;
+    }
+
     // 参与的活动
     private Long activityId;
 

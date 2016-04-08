@@ -43,10 +43,6 @@ public class ApiResponse<T> {
         return new ApiResponse<>(data);
     }
 
-    public static <T> ApiResponse<T> returnSuccess(String message) {
-        return new ApiResponse<>(0, null, message);
-    }
-
     public static <T> ApiResponse<T> returnSuccess(T data, String message) {
         return new ApiResponse<>(0, data, message);
     }
