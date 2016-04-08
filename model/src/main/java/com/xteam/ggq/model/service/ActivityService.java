@@ -8,6 +8,8 @@ import com.xteam.ggq.model.exception.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public class ActivityService {
 
@@ -29,7 +31,7 @@ public class ActivityService {
     public void applyActivity(Long activityId, String username) {
         Activity activity = findActivity(activityId);
         ActivityUser activityUser = new ActivityUser(activity.getId(), username);
-        
+
         activityUserRepository.save(activityUser);
     }
 
@@ -37,4 +39,14 @@ public class ActivityService {
         return activityRepository.saveAndFlush(activity);
     }
 
+    public ActivityUser comment(ActivityUser originActivityUser,
+                        BigDecimal commentForInitiator, String commentForInitiatorContent,
+                        BigDecimal commentForActivity, String commentForActivityContent) {
+        originActivityUser.setCommentForInitiator(commentForInitiator);
+        originActivityUser.setCommentForInitiatorContent(commentForInitiatorContent);
+        originActivityUser.setCommentForActivity(commentForActivity);
+        originActivityUser.setCommentForActivityContent(commentForActivityContent);
+
+        return activityUserRepository.saveAndFlush(originActivityUser);
+    }
 }

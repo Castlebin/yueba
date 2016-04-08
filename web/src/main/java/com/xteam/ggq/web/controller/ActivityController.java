@@ -1,8 +1,10 @@
 package com.xteam.ggq.web.controller;
 
 import com.xteam.ggq.model.bo.Activity;
+import com.xteam.ggq.model.bo.ActivityUser;
 import com.xteam.ggq.model.bo.User;
 import com.xteam.ggq.model.service.ActivityService;
+import com.xteam.ggq.model.service.ActivityUserService;
 import com.xteam.ggq.web.controller.api.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class ActivityController {
 
     @Autowired
     private ActivityService activityService;
+    @Autowired
+    private ActivityUserService activityUserService;
 
     @RequestMapping(method = RequestMethod.GET)
     public ApiResponse<Activity> getActivityInfo(Long activityId) {
@@ -39,6 +43,18 @@ public class ActivityController {
         activityService.applyActivity(activityId, username);
 
         return ApiResponse.returnSuccess();
+    }
+
+    @RequestMapping(value = "/comment", method = RequestMethod.POST)
+    public ApiResponse<ActivityUser> comment(ActivityUser activityUser, HttpServletRequest request) {
+        String username = ((User) request.getSession().getAttribute("user")).getUsername();
+        assert username.equals(activityUser.getUsername());
+
+        ActivityUser originActivityUser = activityUserService.find(activityUser.getId());
+
+        return ApiResponse.returnSuccess(activityService.comment(originActivityUser,
+                activityUser.getCommentForInitiator(), activityUser.getCommentForInitiatorContent(),
+                activityUser.getCommentForActivity(), activityUser.getCommentForActivityContent()));
     }
 
 }

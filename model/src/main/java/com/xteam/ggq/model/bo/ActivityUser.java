@@ -25,8 +25,8 @@ public class ActivityUser extends BaseEntity {
     private String username;
 
     // 对活动发起者的评价和打分
-    private BigDecimal commentForInitiatorUser;
-    private String commentForInitiatorUserContent;
+    private BigDecimal commentForInitiator;
+    private String commentForInitiatorContent;
 
     // 对活动的评价和打分
     private BigDecimal commentForActivity;
