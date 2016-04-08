@@ -1,5 +1,6 @@
 package com.xteam.ggq.model.bo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -27,18 +29,23 @@ public class User extends BaseEntity {
 
     private String nickname;
 
+    @Column(nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date birthday;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
     public User() {
     }
 
-    public User(String username, String password, String salt, String nickname, Gender gender) {
+    public User(String username, String password, String salt, String nickname, Gender gender, Date birthday) {
         this.username = username;
         this.password = password;
         this.salt = salt;
         this.nickname = nickname;
         this.gender = gender;
+        this.birthday = birthday;
     }
 
     public enum Gender {

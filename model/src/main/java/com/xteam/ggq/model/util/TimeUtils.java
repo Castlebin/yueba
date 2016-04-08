@@ -5,6 +5,7 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
@@ -37,6 +38,8 @@ public final class TimeUtils {
     public static final int DATATYPE_HOUR = 4;
     public static final int DATATYPE_MINUTE = 5;
     public static final int DATATYPE_SECOND = 6;
+
+    public static final SimpleDateFormat DATA_FORMAT_YYYY_MM_DD = new SimpleDateFormat(YYYY_MM_DD);
 
     /**
      * 获取日期格式

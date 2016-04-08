@@ -3,6 +3,7 @@ package com.xteam.ggq.web.controller;
 import com.xteam.ggq.model.bo.User;
 import com.xteam.ggq.model.service.UserService;
 import com.xteam.ggq.model.util.Md5Util;
+import com.xteam.ggq.model.util.TimeUtils;
 import com.xteam.ggq.web.annotation.DoNotNeedLogin;
 import com.xteam.ggq.web.api.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
 import java.util.UUID;
 
 @RestController
@@ -34,10 +36,12 @@ public class UserController {
     @DoNotNeedLogin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ApiResponse<User> addUser(String username, String password, String nickname, User.Gender gender,
-            HttpServletRequest request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+            String birthday, HttpServletRequest request)
+                    throws UnsupportedEncodingException, NoSuchAlgorithmException, ParseException {
         String salt = UUID.randomUUID().toString();
         password = Md5Util.EncoderByMd5(password + salt);
-        User user = new User(username, password, salt, nickname, gender);
+        User user = new User(username, password, salt, nickname, gender,
+                TimeUtils.DATA_FORMAT_YYYY_MM_DD.parse(birthday));
         userService.addUser(user);
 
         request.getSession().setAttribute("user", user);
