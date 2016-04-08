@@ -27,10 +27,6 @@ public abstract class BaseEntity {
     @Column(nullable = false)
     private Timestamp modifyTime;
 
-    /** 乐观锁 */
-    @Version
-    private int version;
-
     @PrePersist
     private void onCreate() {
         modifyTime = createTime = new Timestamp(System.currentTimeMillis());

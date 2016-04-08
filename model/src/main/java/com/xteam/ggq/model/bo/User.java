@@ -9,7 +9,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -35,6 +38,12 @@ public class User extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    // Tag
+    private transient Set<Tag> tags = new HashSet<>();
+
+    // 用户星级
+    private BigDecimal grade;
 
     public User() {
     }
