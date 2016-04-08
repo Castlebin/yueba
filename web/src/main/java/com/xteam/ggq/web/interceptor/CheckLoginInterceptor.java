@@ -3,7 +3,7 @@ package com.xteam.ggq.web.interceptor;
 import com.alibaba.fastjson.JSON;
 import com.xteam.ggq.model.bo.User;
 import com.xteam.ggq.web.annotation.DoNotNeedLogin;
-import com.xteam.ggq.web.api.ApiResponse;
+import com.xteam.ggq.web.controller.api.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;

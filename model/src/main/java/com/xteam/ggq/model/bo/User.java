@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,8 +33,8 @@ public class User extends BaseEntity {
     private String nickname;
 
     @Column(nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date birthday;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Timestamp birthday;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -48,7 +48,7 @@ public class User extends BaseEntity {
     public User() {
     }
 
-    public User(String username, String password, String salt, String nickname, Gender gender, Date birthday) {
+    public User(String username, String password, String salt, String nickname, Gender gender, Timestamp birthday) {
         this.username = username;
         this.password = password;
         this.salt = salt;

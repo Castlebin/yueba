@@ -6,7 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Md5Util {
+public class Md5Utils {
 
     public static String EncoderByMd5(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         // 确定计算方法

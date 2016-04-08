@@ -1,4 +1,4 @@
-package com.xteam.ggq.web.api;
+package com.xteam.ggq.web.controller.api;
 
 import lombok.Getter;
 import lombok.Setter;
