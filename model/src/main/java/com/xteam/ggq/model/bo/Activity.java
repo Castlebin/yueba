@@ -17,7 +17,7 @@ import java.util.Set;
 public class Activity extends BaseEntity {
 
     // 发起人
-    private String initiator;
+    private String username;
 
     @Column(nullable = false)
     private String title;
