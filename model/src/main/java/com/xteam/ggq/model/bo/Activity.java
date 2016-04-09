@@ -3,7 +3,9 @@ package com.xteam.ggq.model.bo;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Version;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -66,7 +68,12 @@ public class Activity extends BaseEntity {
     // 活动费用
     private BigDecimal price = BigDecimal.ZERO;
 
-    // 单位 米(m)
+    // 发起人昵称
+    private transient String nickname;
+
+    // 是否已报名
+    private transient boolean applied;
+
     private transient float distance;
 
     // 标签

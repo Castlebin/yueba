@@ -5,10 +5,9 @@ import com.xteam.ggq.model.bo.ActivityUser;
 import com.xteam.ggq.model.bo.User;
 import com.xteam.ggq.model.service.ActivityService;
 import com.xteam.ggq.model.service.ActivityUserService;
+import com.xteam.ggq.model.service.UserService;
 import com.xteam.ggq.web.controller.api.ApiResponse;
-import com.xteam.ggq.web.vo.ActivityInfoVo;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -28,17 +27,17 @@ public class ActivityController {
     private ActivityService activityService;
     @Autowired
     private ActivityUserService activityUserService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ApiResponse<ActivityInfoVo> getActivityInfo(Long activityId, HttpServletRequest request) {
+    public ApiResponse<Activity> getActivityInfo(Long activityId, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-        ActivityInfoVo activityInfoVo = new ActivityInfoVo();
         Activity activity = activityService.findActivity(activityId);
-        BeanUtils.copyProperties(activity, activityInfoVo);
         // 本人是否已报名
-        activityInfoVo.setApplied(activityUserService.hasApplied(user.getUsername(), activity));
+        activity.setApplied(activityUserService.hasApplied(user.getUsername(), activity));
 
-        return ApiResponse.returnSuccess(activityInfoVo);
+        return ApiResponse.returnSuccess(activity);
     }
 
     // 活动推荐
@@ -47,9 +46,10 @@ public class ActivityController {
                                  @RequestParam(defaultValue = "10") int pageSize) {
         Page<Activity> activityPage = activityService.recommend(pageNum, pageSize);
 
-        // 下面伪造一下地理位置数据
         for ( Activity activity : activityPage.getContent() ) {
-            activity.setDistance( rnd.nextInt(RT) );
+            activity.setNickname(userService.findUser(activity.getUsername()).getNickname());
+            // 伪造一下地理位置数据
+            activity.setDistance(rnd.nextInt(RT));
         }
 
         return ApiResponse.returnSuccess(activityPage);
