@@ -74,27 +74,4 @@ yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService',
     //拉取活动详情
     $scope.getActivityDetail();
 
-    $scope.currentActivityNum = 0;
-
-    $scope.getCurrentActivityNum = function () {
-        $http({
-            method: 'GET',
-            url: '/api/activity/curractnum'
-        }).then(
-            function (response) {
-                var serverResponse = response.data;
-                if (angular.isObject(serverResponse) && serverResponse.status == 0) {
-                    $scope.currentActivityNum = serverResponse.data;
-                }
-                else {
-                    $.alert('得到用户当前活动数量失败了');
-                }
-            },
-            function (response) {
-                $.alert('得到用户当前活动数量失败了');
-            }
-        );
-    }
-
-    $scope.getCurrentActivityNum();
 }]);

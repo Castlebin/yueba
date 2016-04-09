@@ -26,7 +26,7 @@ public class FileUploadController {
     public ApiResponse handleFileUpload(@RequestParam("file") MultipartFile file) {
         if (!file.isEmpty()) {
             try {
-                String relativePath = "/" + UUID.randomUUID().toString()
+                String relativePath = "/upload/" + UUID.randomUUID().toString()
                         + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
                 String name = uploadPath + relativePath;
                 File target = new File(name);

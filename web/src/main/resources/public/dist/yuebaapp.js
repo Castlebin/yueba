@@ -79,7 +79,7 @@ yuebaApp.factory('authInterceptor', ['$location', '$window', '$rootScope', '$tim
             //{message: "用户未登录！", status: -1}
             if (angular.isObject(serverResponse) && serverResponse.status == 1) {
                 console.log('broadcast: unauthorized');
-                $rootScope.$broadcast('unauthorized');
+                //$rootScope.$broadcast('unauthorized');
                 $.toast('登录超时，请重新登录');
                 $timeout(function () {
                     $window.location.href = "login.html";
@@ -203,6 +203,28 @@ yuebaApp.controller('NavBarController', ['$scope', '$http', '$location', '$windo
     //}
 
     $scope.activePage = 'home';
+
+    $scope.currentActivityNum = 0;
+
+    $scope.getCurrentActivityNum = function () {
+        $http({
+            method: 'GET',
+            url: '/api/activity/curractnum'
+        }).then(
+            function (response) {
+                var serverResponse = response.data;
+                if (angular.isObject(serverResponse) && serverResponse.status == 0) {
+                    $scope.currentActivityNum = serverResponse.data;
+                }
+                else {
+                }
+            },
+            function (response) {
+            }
+        );
+    };
+
+    $scope.getCurrentActivityNum();
 
 }]);
 
