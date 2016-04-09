@@ -12,11 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Random;
 
@@ -42,6 +40,7 @@ public class ActivityController {
         // 本人是否已报名
         activity.setApplied(activityUserService.hasApplied(user.getUsername(), activity));
 
+        activityService.setActivityStatus(activity);
         return ApiResponse.returnSuccess(activity);
     }
 
@@ -93,7 +92,7 @@ public class ActivityController {
             activity.setDistance(1000 * i);
         }
 
-        activityService.setActivityStatus(activityPage);
+        activityService.setActivitiesStatus(activityPage);
         return ApiResponse.returnSuccess(activityPage);
     }
 
