@@ -7,9 +7,8 @@ import com.xteam.ggq.model.bo.User;
 import com.xteam.ggq.model.dao.ActivityRepository;
 import com.xteam.ggq.model.dao.ActivityTagRepository;
 import com.xteam.ggq.model.dao.ActivityUserRepository;
-import com.xteam.ggq.model.enums.ActivityStatus;
 import com.xteam.ggq.model.dao.UserRepository;
-import com.xteam.ggq.model.exception.BizException;
+import com.xteam.ggq.model.enums.ActivityStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,10 +38,6 @@ public class ActivityService {
 
     public Activity findActivity(Long activityId) {
         Activity activity = activityRepository.findOne(activityId);
-
-        if (activity == null) {
-            throw new BizException("没有找到相应的活动！");
-        }
 
         Set<ActivityTag> activityTags = activityTagRepository.findByActivityId(activityId);
         Set<String> tags = activityTags.stream().map(ActivityTag::getTagName).collect(Collectors.toSet());
