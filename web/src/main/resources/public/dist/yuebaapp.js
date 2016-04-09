@@ -1,9 +1,17 @@
 var globalDefines = {
     trGender: {
-        MALE: '男',
-        FAMALE: '女'
+        "MALE": "男",
+        "FAMALE": "女"
     }
 };
+
+function requiredFieldIsNull(field, fieldName){
+    if(!field){
+        $.alert(fieldName + '不能为空');
+        return true;
+    }
+    return false;
+}
 
 // 应用定义
 var yuebaApp = angular.module('yuebaApp', []);
@@ -52,30 +60,21 @@ yuebaApp.config(function ($httpProvider) {
 yuebaApp.factory('UserService', [function() {
     var localStorageKey = 'YuebaUser';
     var userDo = {
-        user:{
-            isLogon: false,
-            userName: '',
-            nickName: '',
-            phone: ''
-        }
+        user:{},
+        isLogon: false
     };
     userDo.login = function () {
-        this.user.isLogon = true;
+        this.isLogon = true;
         this.save();
     };
 
     userDo.logout = function () {
-        this.user.isLogon = false;
+        this.isLogon = false;
         this.save();
     };
-    userDo.setUserName = function (value) {
-        this.user.userName = value;
-    };
-    userDo.setNickName = function (value) {
-        this.user.nickName = value;
-    };
-    userDo.setPhone = function (value) {
-        this.user.phone = value;
+    userDo.setUser = function (userVo) {
+        this.user = userVo;
+        this.save();
     };
     userDo.save = function() {
         if( JSON === null ) return;
@@ -86,28 +85,14 @@ yuebaApp.factory('UserService', [function() {
             this.cookieStore.put(localStorageKey, JSON.stringify(this.user));
         }
     };
-    userDo.getUserName = function () {
+    userDo.getUser = function () {
         this.load();
-        return this.user.userName;
-    };
-    userDo.getNickName = function () {
-        this.load();
-        return this.user.nickName;
-    };
-    userDo.getPhone = function () {
-        this.load();
-        return this.user.phone;
+        return this.user;
     };
     userDo.getLoginState = function () {
         this.load();
-        return this.user.isLogon;
+        return this.isLogon;
     };
-
-    userDo.getUserMenu = function() {
-        this.load();
-        return this.user.menu;
-    };
-
     userDo.load = function () {
         var jsonstr =  localStorage !== null ? localStorage[localStorageKey] : this.cookieStore.get(localStorageKey);
         if (jsonstr !== null && JSON !== null) {
@@ -126,7 +111,7 @@ yuebaApp.factory('UserService', [function() {
 var restApiRootUrl = window.location.origin;
 yuebaApp.controller('NavBarController', ['$scope','$http', '$location', 'UserService', '$rootScope',function($scope, $http, $location, UserService, $rootScope) {
     // 登录账号的Name
-    $scope.userName = UserService.getUserName();
+    $scope.user = UserService.getUser();
     $scope.isLogon = UserService.getLoginState();
 
     //如果发现未登录，那么直接页面跳转，将转到登录页

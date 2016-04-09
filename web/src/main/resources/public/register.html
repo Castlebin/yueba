@@ -1,4 +1,4 @@
-<html>
+<html ng-app="yuebaApp">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,10 +9,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="stylesheet" href="assets/css/sm.min.css">
     <link rel="stylesheet" href="assets/css/sm-extend.min.css">
-      <script type='text/javascript' src='assets/js/angular.min.js' charset='utf-8'></script>
-      <script type='text/javascript' src='dist/yuebaapp.js' charset='utf-8'></script>
+    <script type='text/javascript' src='assets/js/angular.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='dist/yuebaapp.js' charset='utf-8'></script>
+    <script type='text/javascript' src='dist/controllers/register.js' charset='utf-8'></script>
   </head>
-  <body>
+  <body ng-controller="RegisterController">
 
   <div class="page-group">
       <!-- 你的html代码 -->
@@ -34,7 +35,7 @@
                           <div class="item-content">
                               <div class="item-media"><i class="icon icon-form-name"></i></div>
                               <div class="item-inner">
-                                  <div class="item-title label">登录账号</div>
+                                  <div class="item-title label">登录名</div>
                                   <div class="item-input">
                                       <input type="text" placeholder="登录账号" ng-model="registerUser.username">
                                   </div>
@@ -47,7 +48,7 @@
                               <div class="item-inner">
                                   <div class="item-title label">昵称</div>
                                   <div class="item-input">
-                                      <input type="text" placeholder="昵称" ng-model="registerUser.username">
+                                      <input type="text" placeholder="昵称" ng-model="registerUser.nickname">
                                   </div>
                               </div>
                           </div>
@@ -80,9 +81,8 @@
                               <div class="item-inner">
                                   <div class="item-title label">性别</div>
                                   <div class="item-input">
-                                      <select>
-                                          <option>Male</option>
-                                          <option>Female</option>
+                                      <select ng-options="key as value for (key, value) in globalDefines.trGender"
+                                              ng-model="registerUser.gender">
                                       </select>
                                   </div>
                               </div>
@@ -96,20 +96,7 @@
                                   <div class="item-title label">生日</div>
                                   <div class="item-input">
                                       <!--<input type="date" placeholder="生日" value="2014-04-30">-->
-                                      <input id="birthDate" type="text" placeholder="生日"/>
-                                  </div>
-                              </div>
-                          </div>
-                      </li>
-                      <!-- Switch (Checkbox) -->
-
-                      <li class="align-top">
-                          <div class="item-content">
-                              <div class="item-media"><i class="icon icon-form-comment"></i></div>
-                              <div class="item-inner">
-                                  <div class="item-title label">文本域</div>
-                                  <div class="item-input">
-                                      <textarea></textarea>
+                                      <input id="birthDate" type="text" placeholder="生日" ng-model="registerUser.birthday"/>
                                   </div>
                               </div>
                           </div>
@@ -117,7 +104,7 @@
                   </ul>
               </div>
               <div class="content-block">
-                  <a href="#" class="button button-big button-fill button-success">提交</a>
+                  <a href="#" class="button button-big button-fill button-success" ng-click="register()">提交</a>
               </div>
           </div>
       </div>
