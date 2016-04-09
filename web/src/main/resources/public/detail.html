@@ -48,12 +48,18 @@
                         <div class="card-content-inner">
                             <p class="color-danger"
                                ng-if="activity.activityStatus == 'IN_ENROLLMENT' && readableCounter">
-                                还剩<span ng-bind="readableCounter"></span>截止
+                                还剩<span ng-bind="readableCounter"></span>报名截止
+                            </p>
+                            <!--<p class="color-gray">-->
+                                <!--活动时间：<span ng-bind="activity.activityBeginTime|date:'yyyy年MM月dd日 HH:mm'"></span>-->
+                                <!--到-->
+                                <!--<span ng-bind="activity.activityEndTime|date:'yyyy年MM月dd日 HH:mm'"></span>-->
+                            <!--</p>-->
+                            <p class="color-gray">
+                                活动开始：<span ng-bind="activity.activityBeginTime|date:'yyyy-MM-dd HH:mm'"></span>
                             </p>
                             <p class="color-gray">
-                                活动时间：<span ng-bind="activity.activityBeginTime|date:'yyyy年MM月dd日 HH:mm'"></span>
-                                到
-                                <span ng-bind="activity.activityEndTime|date:'yyyy年MM月dd日 HH:mm'"></span>
+                                活动结束：<span ng-bind="activity.activityEndTime|date:'yyyy-MM-dd HH:mm'"></span>
                             </p>
                             <p class="color-gray">
                                 报名截止：<span ng-bind="activity.applyEndTime|date:'yyyy-MM-dd HH:mm'"></span>
@@ -96,7 +102,7 @@
                             <ul>
                                 <li class="item-content item-link">
                                     <div class="item-inner">
-                                        <div class="item-title">活动地点</div>
+                                        <div class="item-title">活动地点坐标</div>
                                         <div class="item-after">
                                             <span ng-bind="activity.activityAddress"></span>
                                         </div>

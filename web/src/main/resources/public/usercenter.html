@@ -87,30 +87,35 @@
                     </li>
                 </ul>
             </div>
-            <div class="list-block media-list">
-                <ul class="list-container">
-                    <li ng-repeat="activity in activityList">
-                        <div class="color-gray">
-                            <a href="/detail.html?activityId={{activity.id}}" class="item-link item-content external">
-                                <div class="item-media">
-                                    <img ng-src="{{activity.pic}}" width="80">
-                                </div>
-                                <div class="item-inner">
-                                    <div class="item-title-row">
-                                        <div class="item-title">
-                                            <span ng-bind="activity.title"></span>
+            <div class="card">
+                <div class="card-header">我的活动:</div>
+                <div class="card-content">
+                    <div class="list-block media-list">
+                        <ul class="list-container">
+                            <li ng-repeat="activity in activityList">
+                                <div class="color-gray">
+                                    <a href="/detail.html?activityId={{activity.id}}" class="item-link item-content external">
+                                        <div class="item-media">
+                                            <img ng-src="{{activity.pic}}" width="80">
                                         </div>
-                                        <div class="item-after {{activity.activityStatus|lowercase}}"
-                                             ng-bind="globalDefines.trActivityStatus[activity.activityStatus]"></div>
-                                    </div>
-                                    <div class="item-text">
-                                        <span ng-bind="activity.description| cut:true:100:'...'"></span>
-                                    </div>
+                                        <div class="item-inner">
+                                            <div class="item-title-row">
+                                                <div class="item-title">
+                                                    <span ng-bind="activity.title"></span>
+                                                </div>
+                                                <div class="item-after {{activity.activityStatus|lowercase}}"
+                                                     ng-bind="globalDefines.trActivityStatus[activity.activityStatus]"></div>
+                                            </div>
+                                            <div class="item-text">
+                                                <span ng-bind="activity.description| cut:true:100:'...'"></span>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
-                            </a>
-                        </div>
-                    </li>
-                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
