@@ -96,6 +96,20 @@ yuebaApp.controller('UserCenterController', ['$scope', '$http', '$q', 'UserServi
         );
     };
 
+    $scope.logout = function () {
+        $http({
+            method: 'GET',
+            url: '/api/user/logout'
+        }).then(
+            function (response) {
+                $window.location.href = 'index.html';
+            },
+            function (response) {
+
+            }
+        );
+    };
+
     $scope.list();
 
     //图片上传处理逻辑
