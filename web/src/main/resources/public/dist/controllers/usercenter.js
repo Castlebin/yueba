@@ -1,7 +1,9 @@
 /**
  * Created by wainguo on 16/4/8.
  */
-yuebaApp.controller('UserCenterController', ['$scope', '$http', '$q', 'UserService', '$location', '$window', '$timeout', '$document', 'globalDefines', function ($scope, $http, $q, UserService, $location, $window, $timeout, $document, globalDefines) {
+yuebaApp.requires.push('angularFileUpload');
+yuebaApp.controller('PublishController', ['$scope', '$http', '$q', 'UserService', '$location', '$window', '$timeout', '$document', 'globalDefines','FileUploader', function ($scope, $http, $q, UserService, $location, $window, $timeout, $document, globalDefines, FileUploader) {
+
     $scope.globalDefines = globalDefines;
 
     // 最多可加载的页数
@@ -72,4 +74,34 @@ yuebaApp.controller('UserCenterController', ['$scope', '$http', '$q', 'UserServi
     };
 
     $scope.list();
+
+
+    //图片上传处理逻辑
+    var uploader = $scope.uploader = new FileUploader({
+        url: '/upload',
+        autoUpload: true,
+        queueLimit: 1
+    });
+
+    uploader.filters.push({
+        name: 'imageFilter',
+        fn: function(item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
+        console.info('onWhenAddingFileFailed', item, filter, options);
+        $.alert('请选择图片上传');
+    };
+    uploader.onErrorItem = function(fileItem, response, status, headers) {
+        $.alert('头像上传失败了');
+    };
+    uploader.onCompleteItem = function(fileItem, response, status, headers) {
+        console.info('onCompleteItem', fileItem, response, status, headers);
+        if (response.status == 0) {
+            $.toast('头像上传成功');
+            $scope.user.avatar = response.data;
+        }
+    };
 }]);

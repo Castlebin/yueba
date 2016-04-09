@@ -48,7 +48,7 @@ yuebaApp.controller('PublishController', ['$scope', '$http', '$q', 'UserService'
                     }
                 }
                 else {
-                    $.alert('发起活动失败了');
+                    $.alert('发起活动失败了:' + serverResponse.message);
                 }
             },
             function (response) {
@@ -58,7 +58,6 @@ yuebaApp.controller('PublishController', ['$scope', '$http', '$q', 'UserService'
     };
 
     //图片上传处理逻辑
-
     var uploader = $scope.uploader = new FileUploader({
         url: '/upload',
         autoUpload: true,
@@ -72,42 +71,13 @@ yuebaApp.controller('PublishController', ['$scope', '$http', '$q', 'UserService'
             return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
         }
     });
-
-    //var controller = $scope.controller = {
-    //    isImage: function(item) {
-    //        var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-    //        return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-    //    }
-    //};
-
     uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
         console.info('onWhenAddingFileFailed', item, filter, options);
+        $.alert('请选择图片上传');
     };
-    uploader.onAfterAddingFile = function(fileItem) {
-        console.info('onAfterAddingFile', fileItem);
-        //fileItem.upload();
-    };
-    //uploader.onAfterAddingAll = function(addedFileItems) {
-    //    console.info('onAfterAddingAll', addedFileItems);
-    //};
-    //uploader.onBeforeUploadItem = function(item) {
-    //    console.info('onBeforeUploadItem', item);
-    //};
-    uploader.onProgressItem = function(fileItem, progress) {
-        console.info('onProgressItem', fileItem, progress);
-    };
-    //uploader.onProgressAll = function(progress) {
-    //    console.info('onProgressAll', progress);
-    //};
-    //uploader.onSuccessItem = function(fileItem, response, status, headers) {
-    //    console.info('onSuccessItem', fileItem, response, status, headers);
-    //};
     uploader.onErrorItem = function(fileItem, response, status, headers) {
-        console.info('onErrorItem', fileItem, response, status, headers);
+        $.alert('图片上传失败了');
     };
-    //uploader.onCancelItem = function(fileItem, response, status, headers) {
-    //    console.info('onCancelItem', fileItem, response, status, headers);
-    //};
     uploader.onCompleteItem = function(fileItem, response, status, headers) {
         console.info('onCompleteItem', fileItem, response, status, headers);
         if (response.status == 0) {
@@ -115,7 +85,4 @@ yuebaApp.controller('PublishController', ['$scope', '$http', '$q', 'UserService'
             $scope.activity.pic = response.data;
         }
     };
-    //uploader.onCompleteAll = function() {
-    //    console.info('onCompleteAll');
-    //};
 }]);

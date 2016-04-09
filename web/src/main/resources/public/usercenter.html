@@ -40,7 +40,13 @@
                         <div class="item-inner">
                             <div class="item-title">头像</div>
                             <div class="item-after">
-                                <img id="avatar" ng-src="{{user.avatar}}" alt="" width="45" height="45">
+                                <!--<img id="avatar" ng-src="{{user.avatar}}" alt="" width="45" height="45">-->
+                                <div class="item-media">
+                                    <a href="javascript:;" class="file">
+                                        <input type="file" id="activity-file" nv-file-select="" uploader="uploader" />
+                                        <img src="{{user.avatar}}" width="44">
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </li>
