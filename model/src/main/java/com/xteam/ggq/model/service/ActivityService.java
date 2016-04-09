@@ -40,7 +40,7 @@ public class ActivityService {
 
         if (user.getGender() == User.Gender.MALE) {
             activity.setApplyMaleCount(activity.getApplyMaleCount() + 1);
-        } else if (user.getGender() == User.Gender.FAMALE) {
+        } else if (user.getGender() == User.Gender.FEMALE) {
             activity.setApplyFemaleCount(activity.getApplyFemaleCount() + 1);
         }
 

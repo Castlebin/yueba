@@ -4,7 +4,7 @@
 yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService', '$location','$window', '$timeout', '$document','globalDefines', function ($scope, $http, $q, UserService, $location, $window, $timeout, $document, globalDefines) {
     $scope.globalDefines = globalDefines;
 
-    $scope.activityId = $location.search().aid;
+    $scope.activityId = $location.search().activityId;
     $scope.activity = {};
 
     $scope.getActivityDetail = function () {

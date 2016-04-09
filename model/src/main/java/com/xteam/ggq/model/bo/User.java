@@ -11,6 +11,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -30,6 +32,8 @@ public class User extends BaseEntity {
 
     private String nickname;
 
+    private String mobile;
+
     // 头像
     private String avatar;
 
@@ -42,6 +46,9 @@ public class User extends BaseEntity {
 
     // 用户星级
     private BigDecimal grade = BigDecimal.ZERO;
+
+    // 标签
+    private transient Set<Tag> tags = new HashSet<>();
 
     public User() {
     }
@@ -56,7 +63,7 @@ public class User extends BaseEntity {
     }
 
     public enum Gender {
-        MALE, FAMALE
+        MALE, FEMALE
     }
 
 }
