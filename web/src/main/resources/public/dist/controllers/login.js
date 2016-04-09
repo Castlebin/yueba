@@ -5,13 +5,13 @@ yuebaApp.controller('LoginController', ['$scope', '$http', '$q', 'UserService', 
 
     $scope.globalDefines = globalDefines;
 
-    $scope.loginUser = {};
+    $scope.activity = {};
 
     $scope.login = function () {
         $http({
             method: 'POST',
             url: '/api/user/login',
-            params: $scope.loginUser
+            params: $scope.activity
         }).then(
             function (response) {
                 var serverResponse = response.data;
