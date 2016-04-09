@@ -63,14 +63,15 @@ public class UserController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ApiResponse<User> updateUser(@RequestBody User user, HttpServletRequest request)
+    public ApiResponse<User> updateUser(@RequestBody User userVo, HttpServletRequest request)
             throws UnsupportedEncodingException, NoSuchAlgorithmException, ParseException {
-        log.info("Update接口请求user对象:[%s]", user.toString());
-        User sessionUser = (User) request.getSession().getAttribute("user");
-        sessionUser.setAvatar(user.getAvatar());
-        sessionUser.setNickname(user.getNickname());
+        log.info("Update接口请求user对象:[%s]", userVo.toString());
+        String username = ((User) request.getSession().getAttribute("user")).getUsername();
+        User user = userService.findUser(username);
+        user.setAvatar(userVo.getAvatar());
+        user.setNickname(userVo.getNickname());
 
-        return ApiResponse.returnSuccess(userService.upateUser(sessionUser));
+        return ApiResponse.returnSuccess(userService.upateUser(user));
     }
 
     @DoNotNeedLogin
