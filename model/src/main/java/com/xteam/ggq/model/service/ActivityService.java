@@ -47,6 +47,13 @@ public class ActivityService {
         return activity;
     }
 
+    public Activity findActivityAndSetUsers(Long activityId) {
+        Activity activity = findActivity(activityId);
+        List<User> users = activityRepository.findUsersByActivityId(activityId);
+        activity.setUsers(users);
+        return activity;
+    }
+
     @Transactional
     public void applyActivity(Activity activity, User user) {
         ActivityUser activityUser = new ActivityUser(activity.getId(), user.getUsername());

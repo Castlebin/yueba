@@ -36,7 +36,7 @@ public class ActivityController {
     @RequestMapping(method = RequestMethod.GET)
     public ApiResponse<Activity> getActivityInfo(Long activityId, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-        Activity activity = activityService.findActivity(activityId);
+        Activity activity = activityService.findActivityAndSetUsers(activityId);
         // 本人是否已报名
         activity.setApplied(activityUserService.hasApplied(user.getUsername(), activity));
 

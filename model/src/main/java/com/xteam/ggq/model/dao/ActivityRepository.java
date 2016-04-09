@@ -1,6 +1,7 @@
 package com.xteam.ggq.model.dao;
 
 import com.xteam.ggq.model.bo.Activity;
+import com.xteam.ggq.model.bo.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,4 +27,7 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
 
     @Query("select a from Activity a, ActivityUser au where a.id = au.activityId and au.username = ?1 order by a.createTime desc")
     List<Activity> findByUsername(String username);
+
+    @Query("select u from ActivityUser au, User u where au.username = u.username and au.activityId = ?1")
+    List<User> findUsersByActivityId(Long activityId);
 }
