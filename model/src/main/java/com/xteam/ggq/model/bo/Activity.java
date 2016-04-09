@@ -37,7 +37,7 @@ public class Activity extends BaseEntity {
     private int applyFemaleCount;
 
     // 公开活动还是私密活动
-    private boolean open;
+    private boolean open = true;
 
     // 活动开始时间
     private Timestamp activityBeginTime;
