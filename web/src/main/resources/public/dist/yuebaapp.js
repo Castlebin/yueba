@@ -2,7 +2,19 @@ var globalDefines = {
     trGender: {
         "MALE": "男",
         "FAMALE": "女"
+    },
+    trActivityStatus: {
+        "BEFORE": "报名已截止",
+        "IN_PROGRESS": "活动进行中",
+        "FINISH": "活动已结束",
+        "IN_ENROLLMENT": "报名进行中"
     }
+    //trActivityStatus: {
+    //    "BEFORE": "报名已截止",
+    //    "IN_PROGRESS": "活动进行中",
+    //    "FINISH": "活动已结束",
+    //    "IN_ENROLLMENT": "报名进行中"
+    //}
 };
 
 // 对Date的扩展，将 Date 转化为指定格式的String
@@ -29,8 +41,8 @@ Date.prototype.Format = function (fmt) {
     return fmt;
 };
 
-function requiredFieldIsNull(field, fieldName){
-    if(!field){
+function requiredFieldIsNull(field, fieldName) {
+    if (!field) {
         $.alert(fieldName + '不能为空');
         return true;
     }
@@ -40,7 +52,7 @@ function requiredFieldIsNull(field, fieldName){
 // 应用定义
 var yuebaApp = angular.module('yuebaApp', []);
 
-yuebaApp.config(['$locationProvider', function($locationProvider) {
+yuebaApp.config(['$locationProvider', function ($locationProvider) {
     $locationProvider.html5Mode({
         enabled: true,
         requireBase: false,
@@ -52,7 +64,7 @@ yuebaApp.config(['$locationProvider', function($locationProvider) {
 yuebaApp.value('globalDefines', globalDefines);
 
 //在底层做一次过滤预处理，劫持重定向页面
-yuebaApp.factory('authInterceptor', ['$location', '$window', '$rootScope','$timeout', '$q', function($location, $window, $rootScope, $timeout, $q) {
+yuebaApp.factory('authInterceptor', ['$location', '$window', '$rootScope', '$timeout', '$q', function ($location, $window, $rootScope, $timeout, $q) {
     return {
         'request': function (config) {
             config.headers = config.headers || {};
@@ -65,7 +77,7 @@ yuebaApp.factory('authInterceptor', ['$location', '$window', '$rootScope','$time
             var serverResponse = response.data;
 
             //{message: "用户未登录！", status: -1}
-            if(angular.isObject(serverResponse) && serverResponse.status == 1 ) {
+            if (angular.isObject(serverResponse) && serverResponse.status == 1) {
                 console.log('broadcast: unauthorized');
                 $rootScope.$broadcast('unauthorized');
                 $.toast('登录超时，请重新登录');
@@ -114,10 +126,10 @@ yuebaApp.filter('cut', function () {
 });
 
 // 用户数据存储
-yuebaApp.factory('UserService', [function() {
+yuebaApp.factory('UserService', [function () {
     var localStorageKey = 'YuebaUser';
     var userDo = {
-        user:{},
+        user: {},
         isLogon: false
     };
     userDo.login = function () {
@@ -133,8 +145,8 @@ yuebaApp.factory('UserService', [function() {
         this.user = userVo;
         this.save();
     };
-    userDo.save = function() {
-        if( JSON === null ) return;
+    userDo.save = function () {
+        if (JSON === null) return;
         if (localStorage !== null) {
             localStorage[localStorageKey] = JSON.stringify(this.user);
         }
@@ -151,7 +163,7 @@ yuebaApp.factory('UserService', [function() {
         return this.isLogon;
     };
     userDo.load = function () {
-        var jsonstr =  localStorage !== null ? localStorage[localStorageKey] : this.cookieStore.get(localStorageKey);
+        var jsonstr = localStorage !== null ? localStorage[localStorageKey] : this.cookieStore.get(localStorageKey);
         if (jsonstr !== null && JSON !== null) {
             try {
                 obj = JSON.parse(jsonstr);
@@ -166,7 +178,7 @@ yuebaApp.factory('UserService', [function() {
 }]);
 
 var restApiRootUrl = window.location.origin;
-yuebaApp.controller('NavBarController', ['$scope','$http', '$location', '$window', 'UserService', '$rootScope',function($scope, $http, $location, $window, UserService, $rootScope) {
+yuebaApp.controller('NavBarController', ['$scope', '$http', '$location', '$window', 'UserService', '$rootScope', function ($scope, $http, $location, $window, UserService, $rootScope) {
     // 登录账号的Name
     $scope.user = UserService.getUser();
     $scope.isLogon = UserService.getLoginState();
@@ -174,7 +186,7 @@ yuebaApp.controller('NavBarController', ['$scope','$http', '$location', '$window
     var url = $location.url();
     // => "/some/path?foo=bar&baz=xoxo"
     console.log(url);
-    if(url){
+    if (url) {
         $scope.currentUrl = url.split('?')[0];
         console.log($scope.currentUrl);
     }

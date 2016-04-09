@@ -16,10 +16,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -110,5 +112,54 @@ public class ActivityService {
             default:
                 return null;
         }
+    }
+
+    /**
+     * 设置活动状态
+     *
+     * @param activityPage
+     *            活动列表
+     */
+    public void setActivityStatus(Page<Activity> activityPage) {
+        Assert.notNull(activityPage, "活动列表不能为空");
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        for (Activity activity : activityPage.getContent()) {
+            // 如果比活动开始时间早
+            if (now.before(activity.getActivityBeginTime())) {
+                if (now.before(activity.getApplyEndTime())) {// 并且比申请截止时间早
+                    activity.setActivityStatus(ActivityStatus.IN_ENROLLMENT);
+                } else if (now.after(activity.getApplyEndTime())) {// 并且比申请截止时间晚
+                    activity.setActivityStatus(ActivityStatus.BEFORE);
+                }
+            }
+            // 如果比活动开始时间晚
+            else if (now.after(activity.getActivityEndTime())) {// 并且比活动结束时间早
+                activity.setActivityStatus(ActivityStatus.FINISH);
+            } else if (now.before(activity.getActivityEndTime())) {// 并且比活动结束时间晚
+                activity.setActivityStatus(ActivityStatus.IN_PROGRESS);
+            }
+        }
+    }
+
+    /**
+     * 得到用户当前活动数量=还未结束的活动数量
+     *
+     * @param username
+     *            用户名
+     * @return 还未结束的活动数量
+     */
+    public int getCurrentActivityNum(String username) {
+        List<Activity> activities = activityRepository.findByUsername(username);
+        int num = 0;
+        if (activities == null) {
+            return num;
+        }
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        for (Activity activity : activities) {
+            if (now.before(activity.getApplyEndTime())) {
+                num++;
+            }
+        }
+        return num;
     }
 }

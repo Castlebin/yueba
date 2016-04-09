@@ -93,35 +93,17 @@ public class ActivityController {
             activity.setDistance(1000 * i);
         }
 
-        setActivityStatus(activityPage);
+        activityService.setActivityStatus(activityPage);
         return ApiResponse.returnSuccess(activityPage);
     }
 
-    /**
-     * 设置活动状态
-     *
-     * @param activityPage
-     *            活动列表
-     */
-    private void setActivityStatus(Page<Activity> activityPage) {
-        Assert.notNull(activityPage, "活动列表不能为空");
-        Timestamp now = new Timestamp(System.currentTimeMillis());
-        for (Activity activity : activityPage.getContent()) {
-            // 如果比活动开始时间早
-            if (now.before(activity.getActivityBeginTime())) {
-                if (now.before(activity.getApplyEndTime())) {// 并且比申请截止时间早
-                    activity.setActivityStatus(ActivityStatus.IN_ENROLLMENT);
-                } else if (now.after(activity.getApplyEndTime())) {// 并且比申请截止时间晚
-                    activity.setActivityStatus(ActivityStatus.BEFORE);
-                }
-            }
-            // 如果比活动开始时间晚
-            else if (now.after(activity.getActivityEndTime())) {// 并且比活动结束时间早
-                activity.setActivityStatus(ActivityStatus.FINISH);
-            } else if (now.before(activity.getActivityEndTime())) {// 并且比活动结束时间晚
-                activity.setActivityStatus(ActivityStatus.IN_PROGRESS);
-            }
+    @RequestMapping(value = "/curractnum", method = RequestMethod.GET)
+    public ApiResponse getCurrentActivityNum(HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || StringUtils.isEmpty(user.getUsername())) {
+            return ApiResponse.returnFail(-1, "用户信息不全");
         }
+        return ApiResponse.returnSuccess(activityService.getCurrentActivityNum(user.getUsername()));
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -162,14 +144,14 @@ public class ActivityController {
         int age = new Date(System.currentTimeMillis()).getYear() - user.getBirthday().getYear();
         Integer minAge = activity.getMinAge();
         Integer maxAge = activity.getMaxAge();
-        if ( minAge != null && age < minAge ) {
+        if (minAge != null && age < minAge) {
             return ApiResponse.returnFail(-1, "该活动发起者限制年龄最小为" + minAge + "岁！");
         }
-        if ( maxAge != null && age > maxAge ) {
+        if (maxAge != null && age > maxAge) {
             return ApiResponse.returnFail(-1, "该活动发起者限制年龄最大为" + maxAge + "岁！");
         }
         // 已经报名过了？
-        if ( activityUserService.hasApplied(user.getUsername(), activity) ) {
+        if (activityUserService.hasApplied(user.getUsername(), activity)) {
             return ApiResponse.returnFail(-1, "亲，你已经报名参加过该活动啦，无需重复报名！");
         }
 

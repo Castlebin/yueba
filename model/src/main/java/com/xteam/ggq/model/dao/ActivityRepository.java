@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
 
@@ -22,4 +23,7 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
 
     @Query("select a from Activity a, ActivityUser au where a.id = au.activityId and au.username = ?1 and a.activityEndTime < ?2")
     Page<Activity> findByActivityEndTimeLessThan(String username, Timestamp timestamp, Pageable pageable);
+
+    @Query("select a from Activity a, ActivityUser au where a.id = au.activityId and au.username = ?1")
+    List<Activity> findByUsername(String username);
 }
