@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.security.Timestamp;
 
 @Data
-public class ActivtyInfoVo {
+public class ActivityInfoVo {
 
     private Long id;
 
@@ -60,5 +60,8 @@ public class ActivtyInfoVo {
 
     // 活动费用
     private BigDecimal price;
+
+    // 是否已报名
+    private boolean applied;
 
 }

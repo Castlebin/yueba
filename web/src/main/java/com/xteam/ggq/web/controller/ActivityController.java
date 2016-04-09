@@ -6,7 +6,9 @@ import com.xteam.ggq.model.bo.User;
 import com.xteam.ggq.model.service.ActivityService;
 import com.xteam.ggq.model.service.ActivityUserService;
 import com.xteam.ggq.web.controller.api.ApiResponse;
+import com.xteam.ggq.web.vo.ActivityInfoVo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +25,15 @@ public class ActivityController {
     private ActivityUserService activityUserService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ApiResponse<Activity> getActivityInfo(Long activityId) {
-        return ApiResponse.returnSuccess(activityService.findActivity(activityId));
+    public ApiResponse<ActivityInfoVo> getActivityInfo(Long activityId, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        ActivityInfoVo activityInfoVo = new ActivityInfoVo();
+        Activity activity = activityService.findActivity(activityId);
+        BeanUtils.copyProperties(activity, activityInfoVo);
+        // 本人是否已报名
+        activityInfoVo.setApplied(activityUserService.hasApplied(user.getUsername(), activity));
+
+        return ApiResponse.returnSuccess(activityInfoVo);
     }
 
     // 活动推荐
