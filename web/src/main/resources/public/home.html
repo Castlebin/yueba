@@ -46,7 +46,8 @@
                               <div class="item-inner">
                                   <div class="item-title-row">
                                       <div class="item-title"><span ng-bind="activity.title"></span></div>
-                                      <!--<div class="item-after">$15</div>-->
+                                      <div class="item-after {{activity.activityStatus|lowercase}}"
+                                           ng-bind="globalDefines.trActivityStatus[activity.activityStatus]"></div>
                                   </div>
                                   <div class="item-subtitle">
                                       报名截止：<span ng-bind="activity.applyEndTime|date:'yyyy-MM-dd HH:mm'"></span>

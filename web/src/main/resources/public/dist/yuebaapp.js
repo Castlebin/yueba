@@ -1,7 +1,7 @@
 var globalDefines = {
     trGender: {
         "MALE": "男",
-        "FAMALE": "女"
+        "FEMALE": "女"
     },
     trActivityStatus: {
         "BEFORE": "报名已截止",

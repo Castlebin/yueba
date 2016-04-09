@@ -7,7 +7,7 @@ yuebaApp.controller('HomeController', ['$scope', '$http', '$q', 'UserService', '
     // 最多可加载的页数
     $scope.maxPagess = 100;
 
-    $scope.pageSize = 5;
+    $scope.pageSize = 10;
     $scope.pageNum = 0;
     $scope.totalPages = 0;
     $scope.totalElements = 0;

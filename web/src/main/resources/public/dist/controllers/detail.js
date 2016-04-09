@@ -41,8 +41,13 @@ yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService',
         if(currentTime >= $scope.activity.applyEndTime){
             //已结束
             $scope.readableCounter = '';
+            return;
         }
         var diff = ($scope.activity.applyEndTime - currentTime)/1000;
+        if(diff <= 0){
+            $scope.readableCounter = '';
+            return;
+        }
         var day = Math.floor(diff/(24*3600));
         var hour = Math.floor(diff%(24*3600)/3600);
         var minute = Math.floor(diff%3600/60);
@@ -80,6 +85,8 @@ yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService',
             function (response) {
                 var serverResponse = response.data;
                 if (serverResponse.status == 0) {
+                    var activityVo = serverResponse.data;
+                    $scope.activity = activityVo;
                     $.toast('恭喜你，报名参加活动成功了');
                 }
                 else {
