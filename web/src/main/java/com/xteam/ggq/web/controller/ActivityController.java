@@ -8,9 +8,7 @@ import com.xteam.ggq.model.service.ActivityUserService;
 import com.xteam.ggq.web.controller.api.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,8 +27,17 @@ public class ActivityController {
         return ApiResponse.returnSuccess(activityService.findActivity(activityId));
     }
 
+    // 活动推荐
+    @RequestMapping(method = RequestMethod.GET)
+    public ApiResponse recommend(@RequestParam(defaultValue = "0") int pageNum,
+                                 @RequestParam(defaultValue = "10") int pageSize) {
+
+
+        return ApiResponse.returnSuccess();
+    }
+
     @RequestMapping(method = RequestMethod.POST)
-    public ApiResponse<Activity> postActivity(Activity activity, HttpServletRequest request) {
+    public ApiResponse<Activity> postActivity(@RequestBody Activity activity, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
 
         // 校验

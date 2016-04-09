@@ -30,6 +30,8 @@ public class ActivityService {
         return activity;
     }
 
+
+
     @Transactional
     public void applyActivity(Activity activity, User user) {
         ActivityUser activityUser = new ActivityUser(activity.getId(), user.getUsername());
