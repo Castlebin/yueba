@@ -11,6 +11,7 @@ import javax.persistence.Version;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -86,5 +87,8 @@ public class Activity extends BaseEntity {
 
     @Transient
     private ActivityStatus activityStatus;
+
+    @Transient
+    private List<User> users;
 
 }
