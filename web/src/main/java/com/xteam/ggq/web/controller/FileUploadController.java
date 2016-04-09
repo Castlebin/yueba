@@ -31,6 +31,7 @@ public class FileUploadController {
                 stream.close();
                 return ApiResponse.returnSuccess(name, "文件上传成功！");
             } catch (Exception e) {
+                log.error("文件上传失败！errMsg: "+e.getMessage(), e);
                 return ApiResponse.returnFail(-1, "文件上传失败！");
             }
         } else {
