@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 @Setter
 public class Tag extends BaseEntity {
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, updatable = false, unique = true)
     private String name;
 
     private String description;

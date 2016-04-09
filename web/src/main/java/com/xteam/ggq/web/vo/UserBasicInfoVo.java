@@ -6,6 +6,8 @@ import lombok.Data;
 @Data
 public class UserBasicInfoVo {
 
+    private String nickname;
+
     private User.Gender gender;
 
 }
