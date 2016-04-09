@@ -14,7 +14,7 @@ import java.io.File;
 @EnableScheduling
 public class Application extends SpringBootServletInitializer {
 
-    public static final String ROOT = "/files";
+    public static final String ROOT = "/upload";
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
