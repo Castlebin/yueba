@@ -38,7 +38,7 @@ public class ActivityController {
             return ApiResponse.returnFail(-1, "活动开始时间应该晚于活动报名截止时间！");
         }
         if ( activity.getActivityBeginTime().after(activity.getActivityEndTime()) ) {
-            return ApiResponse.returnFail(-1, "活动开始时间应该晚于活动结束时间！");
+            return ApiResponse.returnFail(-1, "活动开始时间应该早于活动结束时间！");
         }
 
         return ApiResponse.returnSuccess(activityService.postActivity(activity, user));
