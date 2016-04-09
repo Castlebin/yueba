@@ -21,6 +21,7 @@ yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService',
                 if (angular.isObject(serverResponse) && serverResponse.status == 0) {
                     var activityVo = serverResponse.data;
                     $scope.activity = activityVo;
+                    $scope.countTimer();
                 }
                 else {
                     $.alert('找不到相应的活动');
@@ -39,8 +40,9 @@ yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService',
         var currentTime = (new Date()).getTime();
         if(currentTime >= $scope.activity.applyEndTime){
             //已结束
+            $scope.readableCounter = '';
         }
-        var diff = (currentTime - $scope.activity.applyEndTime)/1000;
+        var diff = ($scope.activity.applyEndTime - currentTime)/1000;
         var day = Math.floor(diff/(24*3600));
         var hour = Math.floor(diff%(24*3600)/3600);
         var minute = Math.floor(diff%3600/60);
@@ -51,9 +53,8 @@ yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService',
         $scope.readableCounter += minute + "分钟";
         $scope.readableCounter += second + "秒";
 
+        $timeout($scope.countTimer, 1000);
     };
-
-    $timeout($scope.countTimer, 1000);
 
     $scope.apply = function () {
         if (!$scope.activityId) {
