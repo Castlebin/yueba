@@ -10,6 +10,7 @@ import com.xteam.ggq.web.vo.ActivityInfoVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,11 +39,18 @@ public class ActivityController {
 
     // 活动推荐
     @RequestMapping(value = "/recommend", method = RequestMethod.GET)
-    public ApiResponse recommend(@RequestParam(defaultValue = "0") int pageNum,
+    public ApiResponse<Page<Activity>> recommend(@RequestParam(defaultValue = "0") int pageNum,
                                  @RequestParam(defaultValue = "10") int pageSize) {
+        Page<Activity> activityPage = activityService.recommend(pageNum, pageSize);
 
+        // 下面伪造一下地理位置数据
+        int i = 0;
+        for ( Activity activity : activityPage.getContent() ) {
+            i++;
+            activity.setDistance( 1000 * i);
+        }
 
-        return ApiResponse.returnSuccess();
+        return ApiResponse.returnSuccess(activityPage);
     }
 
     @RequestMapping(method = RequestMethod.POST)

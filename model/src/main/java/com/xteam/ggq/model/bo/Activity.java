@@ -36,8 +36,8 @@ public class Activity extends BaseEntity {
     // 已报名女性人数
     private int applyFemaleCount;
 
-    @Enumerated(EnumType.STRING)
-    private ActivityType activityType = ActivityType.PUBLIC;
+    // 公开活动还是私密活动
+    private boolean open;
 
     // 活动开始时间
     private Timestamp activityBeginTime;
@@ -64,15 +64,10 @@ public class Activity extends BaseEntity {
     // 活动费用
     private BigDecimal price = BigDecimal.ZERO;
 
+    // 单位 米(m)
+    private transient float distance;
+
     @Version
     private int version;
-
-    /** 公开活动还是私密活动 */
-    public enum ActivityType {
-        /** 公开 */
-        PUBLIC,
-        /** 私密 */
-        PRIVATE
-    }
 
 }

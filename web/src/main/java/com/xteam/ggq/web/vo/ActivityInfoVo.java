@@ -1,10 +1,7 @@
 package com.xteam.ggq.web.vo;
 
-import com.xteam.ggq.model.bo.Activity;
 import lombok.Data;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.math.BigDecimal;
 import java.security.Timestamp;
 
@@ -33,8 +30,7 @@ public class ActivityInfoVo {
     // 上限，为null表示无限制
     private Integer maxAge;
 
-    @Enumerated(EnumType.STRING)
-    private Activity.ActivityType activityType;
+    private boolean open;
 
     // 活动开始时间
     private Timestamp activityBeginTime;
@@ -63,5 +59,7 @@ public class ActivityInfoVo {
 
     // 是否已报名
     private boolean applied;
+
+    private float distance;
 
 }
