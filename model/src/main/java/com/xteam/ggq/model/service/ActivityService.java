@@ -8,6 +8,7 @@ import com.xteam.ggq.model.dao.ActivityRepository;
 import com.xteam.ggq.model.dao.ActivityTagRepository;
 import com.xteam.ggq.model.dao.ActivityUserRepository;
 import com.xteam.ggq.model.enums.ActivityStatus;
+import com.xteam.ggq.model.dao.UserRepository;
 import com.xteam.ggq.model.exception.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,6 +32,8 @@ public class ActivityService {
     private ActivityUserRepository activityUserRepository;
     @Autowired
     private ActivityTagRepository activityTagRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public Activity findActivity(Long activityId) {
         Activity activity = activityRepository.findOne(activityId);
@@ -56,8 +59,12 @@ public class ActivityService {
             activity.setApplyFemaleCount(activity.getApplyFemaleCount() + 1);
         }
 
+        // 用户参加活动次数+1
+        user.setParticipateCount(user.getParticipateCount() + 1);
+
         activityRepository.save(activity);
         activityUserRepository.save(activityUser);
+        userRepository.save(user);
     }
 
     @Transactional

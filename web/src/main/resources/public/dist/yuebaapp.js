@@ -171,6 +171,13 @@ yuebaApp.controller('NavBarController', ['$scope','$http', '$location', '$window
     $scope.user = UserService.getUser();
     $scope.isLogon = UserService.getLoginState();
 
+    var url = $location.url();
+    // => "/some/path?foo=bar&baz=xoxo"
+    console.log(url);
+    if(url){
+        $scope.currentUrl = url.split('?')[0];
+        console.log($scope.currentUrl);
+    }
     //如果发现未登录，那么直接页面跳转，将转到登录页
     //$rootScope.$on('unauthorized', function () {
     //    console.log("!!! user unauthorized, session timeout!!! ");
