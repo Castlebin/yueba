@@ -135,7 +135,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">人均费用</div>
                                 <div class="item-input">
-                                    <input type="number" placeholder="人均费用" ng-model="activity.price">
+                                    <input type="number" placeholder="人均费用" ng-model="activity.price" required>
                                 </div>
                             </div>
                         </div>
@@ -146,7 +146,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">标题</div>
                                 <div class="item-input">
-                                    <input type="text" placeholder="标题" ng-model="activity.title">
+                                    <input type="text" placeholder="标题" ng-model="activity.title" required>
                                 </div>
                             </div>
                         </div>
@@ -168,7 +168,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">发起人</div>
                                 <div class="item-input">
-                                    <input type="text" placeholder="发起人" ng-model="activity.username">
+                                    <input type="text" placeholder="发起人" ng-model="activity.username" readonly>
                                 </div>
                             </div>
                         </div>
@@ -185,15 +185,13 @@
                         </div>
                     </li>
                     <li>
-                        <img src="" id="activity-img">
+                        <img src="" id="activity-img" style="text-align: center">
                     </li>
                 </ul>
             </div>
             <div class="content-block">
-                <div class="row">
-                    <a href="#" class="button button-big button-fill button-success"
-                       ng-click="save()">提交</a>
-                </div>
+                <a href="#" class="button button-big button-fill button-success"
+                   ng-click="save()">提交</a>
             </div>
         </div>
     </div>
