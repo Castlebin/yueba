@@ -84,6 +84,8 @@ yuebaApp.controller('HomeController', ['$scope', '$http', '$q', 'UserService', '
 
     // 加载flag
     $scope.loading = false;
+    $('.infinite-scroll-preloader').hide();
+
     // 注册'infinite'事件处理函数
     $(document).on('infinite', '.infinite-scroll-bottom',function() {
         // 如果正在加载，则退出
@@ -91,6 +93,8 @@ yuebaApp.controller('HomeController', ['$scope', '$http', '$q', 'UserService', '
         // 设置flag
         $scope.loading = true;
 
+        // 显示加载提示符
+        $('.infinite-scroll-preloader').show();
         // 模拟1s的加载过程
         setTimeout(function() {
             $scope.loadMoreActivityList();
@@ -103,7 +107,7 @@ yuebaApp.controller('HomeController', ['$scope', '$http', '$q', 'UserService', '
                 // 加载完毕，则注销无限加载事件，以防不必要的加载
                 $.detachInfiniteScroll($('.infinite-scroll'));
                 // 删除加载提示符
-                $('.infinite-scroll-preloader').remove();
+                $('.infinite-scroll-preloader').hide();
                 return;
             }
 

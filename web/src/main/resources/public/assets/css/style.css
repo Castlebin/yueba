@@ -42,6 +42,6 @@
 }
 
 .avatar {
-    -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, .05);
-    box-shadow: 0 0 1em rgba(0, 0, 0, .5);
+    /*-webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, .05);*/
+    /*box-shadow: 0 0 1em rgba(0, 0, 0, .5);*/
 }
