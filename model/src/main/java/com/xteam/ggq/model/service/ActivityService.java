@@ -115,29 +115,39 @@ public class ActivityService {
     }
 
     /**
-     * 设置活动状态
+     * 设置活动列表状态
      *
      * @param activityPage
      *            活动列表
      */
-    public void setActivityStatus(Page<Activity> activityPage) {
+    public void setActivitiesStatus(Page<Activity> activityPage) {
         Assert.notNull(activityPage, "活动列表不能为空");
-        Timestamp now = new Timestamp(System.currentTimeMillis());
         for (Activity activity : activityPage.getContent()) {
-            // 如果比活动开始时间早
-            if (now.before(activity.getActivityBeginTime())) {
-                if (now.before(activity.getApplyEndTime())) {// 并且比申请截止时间早
-                    activity.setActivityStatus(ActivityStatus.IN_ENROLLMENT);
-                } else if (now.after(activity.getApplyEndTime())) {// 并且比申请截止时间晚
-                    activity.setActivityStatus(ActivityStatus.BEFORE);
-                }
+            setActivityStatus(activity);
+        }
+    }
+
+    /**
+     * 设置单个活动状态
+     *
+     * @param activity
+     *            活动
+     */
+    public void setActivityStatus(Activity activity) {
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        // 如果比活动开始时间早
+        if (now.before(activity.getActivityBeginTime())) {
+            if (now.before(activity.getApplyEndTime())) {// 并且比申请截止时间早
+                activity.setActivityStatus(ActivityStatus.IN_ENROLLMENT);
+            } else if (now.after(activity.getApplyEndTime())) {// 并且比申请截止时间晚
+                activity.setActivityStatus(ActivityStatus.BEFORE);
             }
-            // 如果比活动开始时间晚
-            else if (now.after(activity.getActivityEndTime())) {// 并且比活动结束时间早
-                activity.setActivityStatus(ActivityStatus.FINISH);
-            } else if (now.before(activity.getActivityEndTime())) {// 并且比活动结束时间晚
-                activity.setActivityStatus(ActivityStatus.IN_PROGRESS);
-            }
+        }
+        // 如果比活动开始时间晚
+        else if (now.after(activity.getActivityEndTime())) {// 并且比活动结束时间早
+            activity.setActivityStatus(ActivityStatus.FINISH);
+        } else if (now.before(activity.getActivityEndTime())) {// 并且比活动结束时间晚
+            activity.setActivityStatus(ActivityStatus.IN_PROGRESS);
         }
     }
 
