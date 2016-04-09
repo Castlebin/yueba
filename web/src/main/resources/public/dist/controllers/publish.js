@@ -8,7 +8,8 @@ yuebaApp.controller('PublishController', ['$scope', '$http', '$q', 'UserService'
 
     $scope.activity = {
         price: 0,
-        pic:"/assets/img/sample.jpg"
+        pic:""
+        //pic:"/assets/img/sample.jpg"
     };
 
     $scope.publishActivity = function () {
@@ -110,8 +111,11 @@ yuebaApp.controller('PublishController', ['$scope', '$http', '$q', 'UserService'
     uploader.onCompleteItem = function(fileItem, response, status, headers) {
         console.info('onCompleteItem', fileItem, response, status, headers);
         if (response.status == 0) {
-            $scope.activity.pic = response.data;
-            $.toast('图片上传成功');
+            console.log(response.data);
+            $timeout(function () {
+                $.toast('图片上传成功');
+                $scope.activity.pic = response.data;
+            }, 2000);
         }
     };
     //uploader.onCompleteAll = function() {
