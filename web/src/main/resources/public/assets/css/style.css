@@ -1,3 +1,7 @@
 .list-block {
      margin: 0;
 }
+
+.small-inner.list-block {
+     font-size: .7rem;
+}

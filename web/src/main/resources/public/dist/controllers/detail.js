@@ -11,7 +11,6 @@ yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService',
         if(!$scope.activityId) {
             $.alert('找不到相应的活动');
         }
-
         $http({
             method: 'GET',
             url: '/api/activity',
@@ -53,7 +52,7 @@ yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService',
         };
 
         $http({
-            method: 'GET',
+            method: 'POST',
             url: '/api/activity/apply',
             params: requestParams
         }).then(
@@ -63,7 +62,6 @@ yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService',
                     $.toast('恭喜你，报名参加活动成功了');
                 }
                 else {
-
                     $.alert('报名参加活动失败了：' + serverResponse.message);
                 }
             },
