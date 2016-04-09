@@ -16,6 +16,13 @@ function requiredFieldIsNull(field, fieldName){
 // 应用定义
 var yuebaApp = angular.module('yuebaApp', []);
 
+yuebaApp.config(['$locationProvider', function($locationProvider) {
+    $locationProvider.html5Mode({
+        enabled: true,
+        requireBase: false
+    });
+}]);
+
 // 常量定义
 yuebaApp.value('globalDefines', globalDefines);
 

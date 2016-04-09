@@ -1,5 +1,5 @@
-<html>
-  <head>
+<html ng-app="yuebaApp">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>约吧 - 拓展我的活动圈</title>
@@ -10,45 +10,114 @@
 
     <link rel="stylesheet" href="assets/css/sm.min.css">
     <link rel="stylesheet" href="assets/css/sm-extend.min.css">
-      <script type='text/javascript' src='assets/js/angular.min.js' charset='utf-8'></script>
-      <script type='text/javascript' src='dist/yuebaapp.js' charset='utf-8'></script>
-  </head>
-  <body>
+    <script type='text/javascript' src='assets/js/angular.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='dist/yuebaapp.js' charset='utf-8'></script>
+    <script type='text/javascript' src='dist/controllers/detail.js' charset='utf-8'></script>
+</head>
+<body ng-controller="DetailController">
 
-  <div class="page-group">
-      <!-- 你的html代码 -->
-      <div class="page">
-          <header class="bar bar-nav">
-              <h1 class='title'>活动详情</h1>
-          </header>
-          <div class="content">
-              <div class="buttons-tab">
-                  <a href="#tab1" class="tab-link active button">活动详情</a>
-                  <a href="#tab2" class="tab-link button">参加人员</a>
-              </div>
-              <div class="content-block">
-                  <div class="tabs">
-                      <div id="tab1" class="tab active">
-                          <div class="content-block">
-                              <p>This is tab 1 content</p>
-                          </div>
-                      </div>
-                      <div id="tab2" class="tab">
-                          <div class="content-block">
-                              <p>This is tab 2 content</p>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
+<div class="page-group">
+    <!-- 你的html代码 -->
+    <div class="page">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-left" href="home.html">
+                <span class="icon icon-left"></span>
+                返回
+            </a>
+            <h1 class="title">活动详情</h1>
+        </header>
+        <nav class="bar bar-tab" ng-include="'partials/navbar.html'">
+        </nav>
+        <div class="content">
+            <div class="content-block">
+                <div class="card">
+                    <div class="card-header">
+                        <span ng-bind="activity.title"></span>
+                        <a href="#" class="button button-big button-fill button-success" ng-click="apply()">报名参加</a>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-content-inner">
+                            <p class="color-gray">发表于 2015/01/15</p>
+                            <p ng-bind="activity.description"></p>
+                        </div>
+                    </div>
+                    <div class="card-footer no-border">
+                        <a href="#" class="link">赞</a>
+                        <a href="#" class="link">评论</a>
+                        <a href="#" class="link">分享</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" ng-bind="activity.title"></div>
+                    <div class="card-content">
+                        <div class="list-block">
+                            <ul>
+                                <li class="item-content item-link">
+                                    <div class="item-media"><i class="icon icon-clock"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title">活动地点</div>
+                                        <div class="item-after">
+                                            <span ng-bind="activity.activityAddress"></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="item-content">
+                                    <div class="item-media"><i class="icon icon-clock"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title">活动时间</div>
+                                        <div class="item-after">
+                                            <span ng-bind="activity.activityBeginTime"></span>
+                                            <span ng-bind="activity.activityEndTime"></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="item-content">
+                                    <div class="item-media"><i class="icon icon-clock"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title">报名截止时间</div>
+                                        <div class="item-after">
+                                            <span ng-bind="activity.applyEndTime"></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="item-content">
+                                    <div class="item-media"><i class="icon icon-clock"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title">活动费用</div>
+                                        <div class="item-after">
+                                            ￥<span ng-bind="activity.price"></span>/人
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="item-content">
+                                    <div class="item-media"><i class="icon icon-clock"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title">人数上限</div>
+                                        <div class="item-after"><span ng-bind="activity.peopleLimit||'无'"></span></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-content-inner">这是一个用纯文本的简单卡片。但卡片可以包含自己的页头，页脚，列表视图，图像，和里面的任何元素。</div>
+                    </div>
+                </div>
 
-  <script type='text/javascript' src='assets/js/zepto.min.js' charset='utf-8'></script>
-    <script type='text/javascript' src='assets/js/sm.js' charset='utf-8'></script>
-    <script type='text/javascript' src='assets/js/sm-extend.js' charset='utf-8'></script>
-    <script>
-        $.init();
-    </script>
-  </body>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-content-inner">这是一个用纯文本的简单卡片。但卡片可以包含自己的页头，页脚，列表视图，图像，和里面的任何元素。</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript' src='assets/js/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='assets/js/sm.js' charset='utf-8'></script>
+<script type='text/javascript' src='assets/js/sm-extend.js' charset='utf-8'></script>
+<script>
+    $.init();
+</script>
+</body>
 </html>
