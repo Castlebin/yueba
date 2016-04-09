@@ -146,7 +146,8 @@ public class ActivityController {
         }
         if ((user.getGender() == User.Gender.MALE && (maleCount > femaleCount))
                 || (user.getGender() == User.Gender.FEMALE && (femaleCount > maleCount))) {
-            return ApiResponse.returnFail(-1, "报名人数性别比例不符，请稍后再试！么么哒！");
+            String uType = user.getGender()== User.Gender.MALE ? "女性":"男性";
+            return ApiResponse.returnFail(-1, "报名人数性别比例不符！你可以找一位你心仪的"+uType+"朋友参加哦O(∩_∩)O~");
         }
         // 年龄校验
         int age = new Date(System.currentTimeMillis()).getYear() - user.getBirthday().getYear();
