@@ -20,6 +20,7 @@ import org.springframework.util.Assert;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -50,6 +51,19 @@ public class ActivityService {
     public Activity findActivityAndSetUsers(Long activityId) {
         Activity activity = findActivity(activityId);
         List<User> users = activityRepository.findUsersByActivityId(activityId);
+        Iterator<User> userIterator = users.iterator();
+        User user = null;
+        while (userIterator.hasNext()) {
+            User tmpUser = userIterator.next();
+            if (tmpUser.getUsername().equals(activity.getUsername())) {
+                userIterator.remove();
+                user = tmpUser;
+                break;
+            }
+        }
+        if (user != null) {
+            users.add(0, user);
+        }
         activity.setUsers(users);
         return activity;
     }
