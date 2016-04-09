@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Random;
 
@@ -120,8 +121,10 @@ public class ActivityController {
         if (!activity.getApplyEndTime().before(activity.getActivityBeginTime())) {
             return ApiResponse.returnFail(-1, "活动报名截止时间应该早于活动开始时间！");
         }
+        if ( activity.getPrice().compareTo(BigDecimal.ZERO) < 0 ) {
+            return ApiResponse.returnFail(-1, "活动费用应该大于等于0！");
+        }
 
-        // 不好意思，我要开始投篮了.哦，不对，是偷懒
         return ApiResponse.returnSuccess(activityService.postActivity(activity, user));
     }
 
