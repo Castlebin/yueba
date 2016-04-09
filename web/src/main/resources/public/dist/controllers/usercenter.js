@@ -2,7 +2,7 @@
  * Created by wainguo on 16/4/8.
  */
 yuebaApp.requires.push('angularFileUpload');
-yuebaApp.controller('PublishController', ['$scope', '$http', '$q', 'UserService', '$location', '$window', '$timeout', '$document', 'globalDefines','FileUploader', function ($scope, $http, $q, UserService, $location, $window, $timeout, $document, globalDefines, FileUploader) {
+yuebaApp.controller('UserCenterController', ['$scope', '$http', '$q', 'UserService', '$location', '$window', '$timeout', '$document', 'globalDefines','FileUploader', function ($scope, $http, $q, UserService, $location, $window, $timeout, $document, globalDefines, FileUploader) {
 
     $scope.globalDefines = globalDefines;
 
@@ -73,6 +73,29 @@ yuebaApp.controller('PublishController', ['$scope', '$http', '$q', 'UserService'
         );
     };
 
+    $scope.updateUser = function () {
+        $http({
+            method: 'POST',
+            url: '/api/user/update',
+            data: $scope.user
+        }).then(
+            function (response) {
+                var serverResponse = response.data;
+                if (angular.isObject(serverResponse) && serverResponse.status == 0) {
+                    if (angular.isObject(serverResponse.data)) {
+                        $scope.user = serverResponse.data;
+                    }
+                }
+                else {
+                    console.log('update user failed');
+                }
+            },
+            function (response) {
+                console.log('update user failed');
+            }
+        );
+    };
+
     $scope.list();
 
 
@@ -102,6 +125,7 @@ yuebaApp.controller('PublishController', ['$scope', '$http', '$q', 'UserService'
         if (response.status == 0) {
             $.toast('头像上传成功');
             $scope.user.avatar = response.data;
+            $scope.updateUser();
         }
     };
 }]);
