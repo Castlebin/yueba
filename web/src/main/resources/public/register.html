@@ -36,7 +36,7 @@
                               <div class="item-inner">
                                   <div class="item-title label">登录账号</div>
                                   <div class="item-input">
-                                      <input type="text" placeholder="手机号">
+                                      <input type="text" placeholder="登录账号" ng-model="registerUser.username">
                                   </div>
                               </div>
                           </div>
@@ -47,18 +47,7 @@
                               <div class="item-inner">
                                   <div class="item-title label">昵称</div>
                                   <div class="item-input">
-                                      <input type="text" placeholder="昵称">
-                                  </div>
-                              </div>
-                          </div>
-                      </li>
-                      <li>
-                          <div class="item-content">
-                              <div class="item-media"><i class="icon icon-form-email"></i></div>
-                              <div class="item-inner">
-                                  <div class="item-title label">邮箱</div>
-                                  <div class="item-input">
-                                      <input type="email" placeholder="E-mail">
+                                      <input type="text" placeholder="昵称" ng-model="registerUser.username">
                                   </div>
                               </div>
                           </div>
@@ -69,7 +58,7 @@
                               <div class="item-inner">
                                   <div class="item-title label">密码</div>
                                   <div class="item-input">
-                                      <input type="password" placeholder="密码" class="">
+                                      <input type="password" placeholder="密码" ng-model="registerUser.password">
                                   </div>
                               </div>
                           </div>
@@ -80,7 +69,7 @@
                               <div class="item-inner">
                                   <div class="item-title label">确认密码</div>
                                   <div class="item-input">
-                                      <input type="password" placeholder="再次输入密码" class="">
+                                      <input type="password" placeholder="再次输入密码" ng-model="registerUser.confirmPassword">
                                   </div>
                               </div>
                           </div>
