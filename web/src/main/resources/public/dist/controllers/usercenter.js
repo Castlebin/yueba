@@ -27,4 +27,29 @@ yuebaApp.controller('UserCenterController', ['$scope', '$http', '$q', 'UserServi
     };
 
     $scope.search();
+
+    $scope.list = function () {
+        var params = {activityStatus: 1};
+        $http({
+            method: 'GET',
+            url: '/api/activity/list',
+            params: params
+        }).then(
+            function (response) {
+                console.log("response=" + response);
+                //var serverResponse = response.data;
+                //if (angular.isObject(serverResponse) && serverResponse.status == 0) {
+                //    $scope.user = serverResponse.data;
+                //}
+                //else {
+                //    $.alert('得到用户中心失败了');
+                //}
+            },
+            function (response) {
+                $.alert('得到用户中心失败了');
+            }
+        );
+    };
+
+    $scope.list();
 }]);

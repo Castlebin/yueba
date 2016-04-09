@@ -5,6 +5,7 @@ import com.xteam.ggq.model.bo.ActivityUser;
 import com.xteam.ggq.model.bo.User;
 import com.xteam.ggq.model.dao.ActivityRepository;
 import com.xteam.ggq.model.dao.ActivityUserRepository;
+import com.xteam.ggq.model.enums.ActivityStatus;
 import com.xteam.ggq.model.exception.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Service
 public class ActivityService {
@@ -31,8 +34,6 @@ public class ActivityService {
 
         return activity;
     }
-
-
 
     @Transactional
     public void applyActivity(Activity activity, User user) {
@@ -60,9 +61,8 @@ public class ActivityService {
         return activity;
     }
 
-    public ActivityUser comment(ActivityUser originActivityUser,
-                        BigDecimal commentForInitiator, String commentForInitiatorContent,
-                        BigDecimal commentForActivity, String commentForActivityContent) {
+    public ActivityUser comment(ActivityUser originActivityUser, BigDecimal commentForInitiator,
+            String commentForInitiatorContent, BigDecimal commentForActivity, String commentForActivityContent) {
         originActivityUser.setCommentForInitiator(commentForInitiator);
         originActivityUser.setCommentForInitiatorContent(commentForInitiatorContent);
         originActivityUser.setCommentForActivity(commentForActivity);
@@ -74,5 +74,23 @@ public class ActivityService {
     public Page<Activity> recommend(int pageNum, int pageSize) {
         PageRequest pageRequest = new PageRequest(pageNum, pageSize);
         return activityRepository.findAll(pageRequest);
+    }
+
+    public Page<Activity> activities(String username, int pageNum, int pageSize, ActivityStatus activityStatus) {
+        PageRequest pageRequest = new PageRequest(pageNum, pageSize);
+        Timestamp now = new Timestamp(new Date().getTime());
+        switch (activityStatus) {
+            case ALL:
+                return activityRepository.findAll(pageRequest);
+            case BEFORE:
+                return activityRepository.findByActivityBeginTimeGreaterThan(username, now, pageRequest);
+            case IN_PROGRESS:
+                return activityRepository.findByActivityBeginTimeLessThanAndActivityEndTimeGreaterThan(username, now,
+                        pageRequest);
+            case FINISH:
+                return activityRepository.findByActivityEndTimeLessThan(username, now, pageRequest);
+            default:
+                return null;
+        }
     }
 }
