@@ -14,11 +14,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/api/activity")
 @Slf4j
 public class ActivityController {
+
+    public static final Random rnd = new Random();
+    public static final int RT = 8000;
 
     @Autowired
     private ActivityService activityService;
@@ -44,10 +48,8 @@ public class ActivityController {
         Page<Activity> activityPage = activityService.recommend(pageNum, pageSize);
 
         // 下面伪造一下地理位置数据
-        int i = 0;
         for ( Activity activity : activityPage.getContent() ) {
-            i++;
-            activity.setDistance( 1000 * i);
+            activity.setDistance( rnd.nextInt(RT) );
         }
 
         return ApiResponse.returnSuccess(activityPage);

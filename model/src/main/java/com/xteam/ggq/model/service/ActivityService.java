@@ -9,6 +9,7 @@ import com.xteam.ggq.model.exception.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,7 +73,7 @@ public class ActivityService {
     }
 
     public Page<Activity> recommend(int pageNum, int pageSize) {
-        PageRequest pageRequest = new PageRequest(pageNum, pageSize);
+        PageRequest pageRequest = new PageRequest(pageNum, pageSize, new Sort("activityBeginTime"));
         return activityRepository.findAll(pageRequest);
     }
 }
