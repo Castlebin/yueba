@@ -16,9 +16,9 @@ yuebaApp.controller('PublishController', ['$scope', '$http', '$q', 'UserService'
         $scope.activity['minAge'] = ageRange.split(' ')[0];
         $scope.activity['maxAge'] = ageRange.split(' ')[1];
 
-        $scope.activity.activityBeginTime = Date.parse($scope.activity.activityBeginTime);
-        $scope.activity.activityEndTime = Date.parse($scope.activity.activityEndTime);
-        $scope.activity.applyEndTime = Date.parse($scope.activity.applyEndTime);
+        $scope.activity.activityBeginTime = Date.parse($scope.activity.activityBeginTimeAlt);
+        $scope.activity.activityEndTime = Date.parse($scope.activity.activityEndTimeAlt);
+        $scope.activity.applyEndTime = Date.parse($scope.activity.applyEndTimeAlt);
 
         if(requiredFieldIsNull($scope.activity.activityBeginTime, '活动开始时间')) return;
         if(requiredFieldIsNull($scope.activity.activityEndTime, '活动结束时间')) return;
@@ -37,10 +37,11 @@ yuebaApp.controller('PublishController', ['$scope', '$http', '$q', 'UserService'
                 var serverResponse = response.data;
                 if (serverResponse.status == 0) {
                     var resActivity = serverResponse.data;
+                    console.log(resActivity);
                     if(angular.isObject(resActivity)){
                         $.toast('发起活动成功');
                         $timeout(function () {
-                            $window.location.href = 'detail.html?aid='+resActivity.activityId;
+                            $window.location.href = 'detail.html?aid='+resActivity.id;
                         }, 1000);
                     }
                 }
