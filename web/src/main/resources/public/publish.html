@@ -13,6 +13,7 @@
     <script type='text/javascript' src='assets/js/angular.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='dist/yuebaapp.js' charset='utf-8'></script>
     <script type='text/javascript' src='dist/controllers/home.js' charset='utf-8'></script>
+    <script type='text/javascript' src='dist/controllers/publish.js' charset='utf-8'></script>
 </head>
 <body ng-controller="PublishController">
 
@@ -33,14 +34,28 @@
             <!-- 这里是页面内容区 -->
             <div class="list-block">
                 <ul>
-                    <!-- Text inputs -->
                     <li>
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">人数</div>
                                 <div class="item-input">
-                                    <input type="number" placeholder="人数">
+                                    <input type="number" placeholder="人数" ng-model="activity.peopleLimit">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-toggle"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">是否公开</div>
+                                <div class="item-input">
+                                    <label class="label-switch">
+                                        <input type="checkbox">
+
+                                        <div class="checkbox"></div>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +77,8 @@
                             <div class="item-inner">
                                 <div class="item-title label">活动开始时间</div>
                                 <div class="item-input">
-                                    <input id="activity-start-time" type="text" placeholder="活动开始时间">
+                                    <input id="activity-start-time" type="text" placeholder="活动开始时间"
+                                           ng-model="activity.activityBeginTime">
                                 </div>
                             </div>
                         </div>
@@ -73,29 +89,20 @@
                             <div class="item-inner">
                                 <div class="item-title label">活动结束时间</div>
                                 <div class="item-input">
-                                    <input id="activity-end-time" type="text" placeholder="活动结束时间">
+                                    <input id="activity-end-time" type="text" placeholder="活动结束时间"
+                                           ng-model="activity.activityEndTime">
                                 </div>
                             </div>
                         </div>
                     </li>
-                    <!--<li>-->
-                    <!--<div class="item-content">-->
-                    <!--<div class="item-media"><i class="icon icon-form-name"></i></div>-->
-                    <!--<div class="item-inner">-->
-                    <!--<div class="item-title label">报名开始时间</div>-->
-                    <!--<div class="item-input">-->
-                    <!--<input id="enroll-start-time" type="text" placeholder="报名开始时间">-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</li>-->
                     <li>
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">报名截止时间</div>
                                 <div class="item-input">
-                                    <input id="enroll-end-time" type="text" placeholder="报名截止时间">
+                                    <input id="enroll-end-time" type="text" placeholder="报名截止时间"
+                                           ng-model="activity.applyEndTime">
                                 </div>
                             </div>
                         </div>
@@ -106,7 +113,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">集合地点</div>
                                 <div class="item-input">
-                                    <input type="text" placeholder="集合地点">
+                                    <input type="text" placeholder="集合地点" ng-model="activity.assemblingAddress">
                                 </div>
                             </div>
                         </div>
@@ -117,7 +124,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">目的地</div>
                                 <div class="item-input">
-                                    <input type="text" placeholder="目的地">
+                                    <input type="text" placeholder="目的地" ng-model="activity.activityAddress">
                                 </div>
                             </div>
                         </div>
@@ -128,7 +135,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">人均费用</div>
                                 <div class="item-input">
-                                    <input type="number" placeholder="人均费用">
+                                    <input type="number" placeholder="人均费用" ng-model="activity.price">
                                 </div>
                             </div>
                         </div>
@@ -139,7 +146,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">标题</div>
                                 <div class="item-input">
-                                    <input type="text" placeholder="标题">
+                                    <input type="text" placeholder="标题" ng-model="activity.title">
                                 </div>
                             </div>
                         </div>
@@ -150,7 +157,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">简介</div>
                                 <div class="item-input">
-                                    <textarea></textarea>
+                                    <textarea ng-model="activity.description"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -161,12 +168,11 @@
                             <div class="item-inner">
                                 <div class="item-title label">发起人</div>
                                 <div class="item-input">
-                                    <input type="text" placeholder="发起人">
+                                    <input type="text" placeholder="发起人" ng-model="activity.username">
                                 </div>
                             </div>
                         </div>
                     </li>
-                    <!--<div class="col-50"><a href="#" class="button pb-standalone">Standalone</a></div>-->
                     <li>
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-name"></i></div>
@@ -185,8 +191,8 @@
             </div>
             <div class="content-block">
                 <div class="row">
-                    <div class="col-50"><a href="#" class="button button-big button-fill button-danger">取消</a></div>
-                    <div class="col-50"><a href="#" class="button button-big button-fill button-success">提交</a></div>
+                    <div class="col-50"><a href="#" class="button button-big button-fill button-success"
+                                           ng-click="save()">提交</a></div>
                 </div>
             </div>
         </div>
@@ -222,32 +228,8 @@
     $("#activity-start-time").datetimePicker({});
     // 活动结束时间选择器
     $("#activity-end-time").datetimePicker({});
-    //    // 报名开始时间选择器
-    //    $("#enroll-start-time").datetimePicker({});
     // 报名结束时间选择器
     $("#enroll-end-time").datetimePicker({});
-
-    //    //点击时打开图片浏览器
-    //    $(document).on('click', '.pb-standalone', function () {
-    //        var test = $.photoBrowser({
-    //            photos: [
-    //                '//img.alicdn.com/tps/i3/TB1kt4wHVXXXXb_XVXX0HY8HXXX-1024-1024.jpeg',
-    //                '//img.alicdn.com/tps/i1/TB1SKhUHVXXXXb7XXXX0HY8HXXX-1024-1024.jpeg',
-    //                '//img.alicdn.com/tps/i4/TB1AdxNHVXXXXasXpXX0HY8HXXX-1024-1024.jpeg'
-    //            ]
-    //        });
-    //        test.open();
-    //    });
-
-    //    $("#activity-img").click(function () {
-    //        var photo_browser = $.photoBrowser({
-    //            photos: [
-    //                this.src
-    //            ]
-    //        });
-    //        photo_browser.open();
-    //    });
-
 
     $("#activity-file").change(function () {
         var objUrl = getObjectURL(this.files[0]);
