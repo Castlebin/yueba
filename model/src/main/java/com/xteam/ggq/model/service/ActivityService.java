@@ -89,7 +89,7 @@ public class ActivityService {
     }
 
     public Page<Activity> recommend(int pageNum, int pageSize) {
-        PageRequest pageRequest = new PageRequest(pageNum, pageSize, new Sort("activityBeginTime"));
+        PageRequest pageRequest = new PageRequest(pageNum, pageSize, new Sort(Sort.Direction.DESC, "createTime"));
         Page<Activity> activities = activityRepository.findAll(pageRequest);
         setActivitiesStatus(activities);
         return activities;

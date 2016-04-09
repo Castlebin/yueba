@@ -11,19 +11,19 @@ import java.util.List;
 
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
 
-    @Query("select a from Activity a, ActivityUser au where a.id = au.activityId and au.username = ?1")
+    @Query("select a from Activity a, ActivityUser au where a.id = au.activityId and au.username = ?1 order by a.createTime desc")
     Page<Activity> findByUsername(String username, Pageable pageable);
 
-    @Query("select a from Activity a, ActivityUser au where a.id = au.activityId and au.username = ?1 and a.activityBeginTime > ?2")
+    @Query("select a from Activity a, ActivityUser au where a.id = au.activityId and au.username = ?1 and a.activityBeginTime > ?2 order by a.createTime desc")
     Page<Activity> findByActivityBeginTimeGreaterThan(String username, Timestamp timestamp, Pageable pageable);
 
-    @Query("select a from Activity a, ActivityUser au where a.id = au.activityId and au.username = ?1 and a.activityBeginTime < ?2 and a.activityEndTime > ?2")
+    @Query("select a from Activity a, ActivityUser au where a.id = au.activityId and au.username = ?1 and a.activityBeginTime < ?2 and a.activityEndTime > ?2 order by a.createTime desc")
     Page<Activity> findByActivityBeginTimeLessThanAndActivityEndTimeGreaterThan(String username, Timestamp timestamp,
             Pageable pageable);
 
-    @Query("select a from Activity a, ActivityUser au where a.id = au.activityId and au.username = ?1 and a.activityEndTime < ?2")
+    @Query("select a from Activity a, ActivityUser au where a.id = au.activityId and au.username = ?1 and a.activityEndTime < ?2 order by a.createTime desc")
     Page<Activity> findByActivityEndTimeLessThan(String username, Timestamp timestamp, Pageable pageable);
 
-    @Query("select a from Activity a, ActivityUser au where a.id = au.activityId and au.username = ?1")
+    @Query("select a from Activity a, ActivityUser au where a.id = au.activityId and au.username = ?1 order by a.createTime desc")
     List<Activity> findByUsername(String username);
 }
