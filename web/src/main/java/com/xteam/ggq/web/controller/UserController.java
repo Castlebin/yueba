@@ -76,4 +76,10 @@ public class UserController {
         return ApiResponse.returnSuccess(user);
     }
 
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public ApiResponse logout(HttpServletRequest request) {
+        request.getSession().invalidate();
+        return ApiResponse.returnSuccess();
+    }
+
 }
