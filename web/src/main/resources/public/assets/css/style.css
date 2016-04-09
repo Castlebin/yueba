@@ -36,3 +36,19 @@
     /*color: #004974;*/
     /*text-decoration: none;*/
 /*}*/
+
+.before {
+    color: #ffa800 !important;
+}
+
+.in_progress {
+    color: #6bd67c !important;
+}
+
+.finish {
+    color: #adadad !important;
+}
+
+.in_enrollment {
+    color: #d43f3a !important;
+}

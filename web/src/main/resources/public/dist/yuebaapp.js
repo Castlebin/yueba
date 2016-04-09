@@ -6,8 +6,8 @@ var globalDefines = {
     trActivityStatus: {
         "BEFORE": "报名已截止",
         "IN_PROGRESS": "活动进行中",
-        "FINISH": "活动已结束",
-        "IN_ENROLLMENT": "报名进行中"
+        "FINISH": "已结束",
+        "IN_ENROLLMENT": "活动报名中"
     }
     //trActivityStatus: {
     //    "BEFORE": "报名已截止",

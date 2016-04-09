@@ -35,6 +35,26 @@ yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService',
         );
     };
 
+    $scope.countTimer = function () {
+        var currentTime = (new Date()).getTime();
+        if(currentTime >= $scope.activity.applyEndTime){
+            //已结束
+        }
+        var diff = (currentTime - $scope.activity.applyEndTime)/1000;
+        var day = Math.floor(diff/(24*3600));
+        var hour = Math.floor(diff%(24*3600)/3600);
+        var minute = Math.floor(diff%3600/60);
+        var second = Math.floor(diff%60);
+        $scope.readableCounter = '';
+        if(day) $scope.readableCounter = day + "天";
+        $scope.readableCounter += hour + "小时";
+        $scope.readableCounter += minute + "分钟";
+        $scope.readableCounter += second + "秒";
+
+    };
+
+    $timeout($scope.countTimer, 1000);
+
     $scope.apply = function () {
         if (!$scope.activityId) {
             $.alert('找不到相应的活动');

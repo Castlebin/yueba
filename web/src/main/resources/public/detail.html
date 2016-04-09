@@ -35,8 +35,16 @@
             <div class="content-block">
                 <div class="card">
                     <div class="card-header">
-                        <span ng-bind="activity.title"></span>
-                        <a href="#" class="button button-fill button-success" ng-click="apply()">报名参加</a>
+                        <p>
+                            <span ng-bind="activity.title"></span>
+                            <span class="{{activity.activityStatus|lowercase}}"
+                                  ng-bind="globalDefines.trActivityStatus[activity.activityStatus]"
+                                  ng-if="activity.activityStatus != 'IN_ENROLLMENT'"></span>
+                            <a href="#" class="button button-fill button-success"
+                               ng-click="apply()"
+                               ng-if="activity.activityStatus == 'IN_ENROLLMENT'">报名参加</a>
+                        </p>
+                        <p ng-if="activity.activityStatus == 'IN_ENROLLMENT'">还剩<span ng-bind="readableCounter"></span>截止</p>
                     </div>
                     <div class="card-content">
                         <div class="card-content-inner">
