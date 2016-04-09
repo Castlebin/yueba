@@ -16,11 +16,19 @@ function requiredFieldIsNull(field, fieldName){
 // 应用定义
 var yuebaApp = angular.module('yuebaApp', []);
 
+yuebaApp.config(['$locationProvider', function($locationProvider) {
+    $locationProvider.html5Mode({
+        enabled: true,
+        requireBase: false,
+        rewriteLinks: false
+    });
+}]);
+
 // 常量定义
 yuebaApp.value('globalDefines', globalDefines);
 
 //在底层做一次过滤预处理，劫持重定向页面
-yuebaApp.factory('authInterceptor', ['$location', '$rootScope', '$q', function($location, $rootScope, $q) {
+yuebaApp.factory('authInterceptor', ['$location', '$window', '$rootScope','$timeout', '$q', function($location, $window, $rootScope, $timeout, $q) {
     return {
         'request': function (config) {
             config.headers = config.headers || {};
@@ -30,12 +38,17 @@ yuebaApp.factory('authInterceptor', ['$location', '$rootScope', '$q', function($
             return config;
         },
         'response': function (response) {
-            if( angular.isString(response.data) ) {
-                if (response.data.indexOf instanceof Function &&
-                    response.data.indexOf('id="this-is-login-page"') != -1) {
-                    $rootScope.$broadcast('unauthorized');
-                    return {};
-                }
+            var serverResponse = response.data;
+
+            //{message: "用户未登录！", status: -1}
+            if(angular.isObject(serverResponse) && serverResponse.status == -1 ) {
+                console.log('broadcast: unauthorized');
+                $rootScope.$broadcast('unauthorized');
+                $.toast('登录超时，请重新登录');
+                $timeout(function () {
+                    $window.location.href = "login.html";
+                }, 1000);
+                return {};
             }
             return response || $q.when(response);
         }
@@ -109,16 +122,16 @@ yuebaApp.factory('UserService', [function() {
 }]);
 
 var restApiRootUrl = window.location.origin;
-yuebaApp.controller('NavBarController', ['$scope','$http', '$location', 'UserService', '$rootScope',function($scope, $http, $location, UserService, $rootScope) {
+yuebaApp.controller('NavBarController', ['$scope','$http', '$location', '$window', 'UserService', '$rootScope',function($scope, $http, $location, $window, UserService, $rootScope) {
     // 登录账号的Name
     $scope.user = UserService.getUser();
     $scope.isLogon = UserService.getLoginState();
 
     //如果发现未登录，那么直接页面跳转，将转到登录页
-    $rootScope.$on('unauthorized', function () {
-        console.log("!!! user unauthorized, session timeout!!! ");
-        window.location = restApiRootUrl + "/login.html";
-    });
+    //$rootScope.$on('unauthorized', function () {
+    //    console.log("!!! user unauthorized, session timeout!!! ");
+    //    $window.location.href = restApiRootUrl + "/login.html";
+    //});
 
     // 登录账号处于已登录状态
     //if(!$scope.operator || !$scope.isLogon){

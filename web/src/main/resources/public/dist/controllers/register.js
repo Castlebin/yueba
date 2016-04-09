@@ -28,7 +28,7 @@ yuebaApp.controller('RegisterController', ['$scope', '$http', '$q', 'UserService
             function (response) {
                 var serverResponse = response.data;
                 if(serverResponse.status == 0){
-                    $.toast('恭喜你，注册成功', 2000, 'success top');
+                    $.toast('恭喜你，注册成功');
                     var userVo = serverResponse.data;
                     UserService.setUser(userVo);
                     $window.location.href='home.html';
