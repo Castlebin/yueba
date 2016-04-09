@@ -48,6 +48,7 @@ public class ActivityService {
         Set<String> tags = activityTags.stream().map(ActivityTag::getTagName).collect(Collectors.toSet());
         activity.setTags(tags);
 
+        setActivityStatus(activity);
         return activity;
     }
 
@@ -78,6 +79,7 @@ public class ActivityService {
         // 将活动的发起者作为第一个报名参加者
         applyActivity(activity, user);
 
+        setActivityStatus(activity);
         return activity;
     }
 
@@ -93,25 +95,34 @@ public class ActivityService {
 
     public Page<Activity> recommend(int pageNum, int pageSize) {
         PageRequest pageRequest = new PageRequest(pageNum, pageSize, new Sort("activityBeginTime"));
-        return activityRepository.findAll(pageRequest);
+        Page<Activity> activities = activityRepository.findAll(pageRequest);
+        setActivitiesStatus(activities);
+        return activities;
     }
 
     public Page<Activity> activities(String username, int pageNum, int pageSize, ActivityStatus activityStatus) {
         PageRequest pageRequest = new PageRequest(pageNum, pageSize);
         Timestamp now = new Timestamp(new Date().getTime());
+        Page<Activity> activityPage = null;
         switch (activityStatus) {
             case ALL:
-                return activityRepository.findByUsername(username, pageRequest);
+                activityPage = activityRepository.findByUsername(username, pageRequest);
+                break;
             case BEFORE:
-                return activityRepository.findByActivityBeginTimeGreaterThan(username, now, pageRequest);
+                activityPage = activityRepository.findByActivityBeginTimeGreaterThan(username, now, pageRequest);
+                break;
             case IN_PROGRESS:
-                return activityRepository.findByActivityBeginTimeLessThanAndActivityEndTimeGreaterThan(username, now,
-                        pageRequest);
+                activityPage = activityRepository.findByActivityBeginTimeLessThanAndActivityEndTimeGreaterThan(username,
+                        now, pageRequest);
+                break;
             case FINISH:
-                return activityRepository.findByActivityEndTimeLessThan(username, now, pageRequest);
+                activityPage = activityRepository.findByActivityEndTimeLessThan(username, now, pageRequest);
+                break;
             default:
                 return null;
         }
+        setActivitiesStatus(activityPage);
+        return activityPage;
     }
 
     /**

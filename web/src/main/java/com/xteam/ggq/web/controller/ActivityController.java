@@ -58,6 +58,8 @@ public class ActivityController {
             activity.setDistance(rnd.nextInt(RT));
         }
 
+        activityService.setActivitiesStatus(activityPage);
+
         return ApiResponse.returnSuccess(activityPage);
     }
 
@@ -94,7 +96,6 @@ public class ActivityController {
             activity.setDistance(1000 * i);
         }
 
-        activityService.setActivitiesStatus(activityPage);
         return ApiResponse.returnSuccess(activityPage.getContent());
     }
 
