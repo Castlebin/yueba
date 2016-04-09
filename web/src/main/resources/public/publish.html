@@ -156,7 +156,7 @@
                                 <div class="item-title label">图片</div>
                                 <div class="item-input">
                                     <a href="javascript:;" class="button button-light file">
-                                        <input type="file" nv-file-select="" uploader="uploader" />上传图片
+                                        <input type="file" id="activity-file" nv-file-select="" uploader="uploader" />上传图片
                                     </a>
                                 </div>
                             </div>
@@ -167,7 +167,8 @@
                             <div class="item-inner">
                                 <div class="card">
                                     <div valign="bottom" class="card-header color-white no-border no-padding">
-                                        <img class='card-cover' src="assets/img/logo.png" alt="">
+                                        <!--<img class='card-cover' ng-src="{{activity.pic}}" alt="">-->
+                                        <img src="" id="activity-img">
                                     </div>
                                 </div>
                             </div>
@@ -213,25 +214,24 @@
     // 报名结束时间选择器
     $("#enroll-end-time").datetimePicker({});
 
-//    $("#activity-file").change(function () {
-//        var objUrl = getObjectURL(this.files[0]);
-//        console.log("objUrl = " + objUrl);
-//        if (objUrl) {
-//            $("#activity-img").attr("src", objUrl).attr("width", "60%");
-//        }
-//    });
-//    //建立一個可存取到該file的url
-//    function getObjectURL(file) {
-//        var url = null;
-//        if (window.createObjectURL != undefined) { // basic
-//            url = window.createObjectURL(file);
-//        } else if (window.URL != undefined) { // mozilla(firefox)
-//            url = window.URL.createObjectURL(file);
-//        } else if (window.webkitURL != undefined) { // webkit or chrome
-//            url = window.webkitURL.createObjectURL(file);
-//        }
-//        return url;
-//    }
+    $("#activity-file").change(function () {
+        var objUrl = getObjectURL(this.files[0]);
+        if (objUrl) {
+            $("#activity-img").attr("src", objUrl).attr("width", "60%");
+        }
+    });
+    //建立一個可存取到該file的url
+    function getObjectURL(file) {
+        var url = null;
+        if (window.createObjectURL != undefined) { // basic
+            url = window.createObjectURL(file);
+        } else if (window.URL != undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file);
+        } else if (window.webkitURL != undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file);
+        }
+        return url;
+    }
 </script>
 </body>
 </html>
