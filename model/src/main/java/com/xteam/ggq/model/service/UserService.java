@@ -40,6 +40,11 @@ public class UserService {
        return user != null;
     }
 
+    public boolean existMobile(String mobile) {
+        User user = userRepository.findByMobile(mobile);
+        return user != null;
+    }
+
     public void addUser(User user) {
         userRepository.saveAndFlush(user);
     }
