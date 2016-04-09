@@ -1,10 +1,12 @@
 package com.xteam.ggq.model.bo;
 
+import com.xteam.ggq.model.enums.ActivityStatus;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -81,5 +83,8 @@ public class Activity extends BaseEntity {
 
     @Version
     private int version;
+
+    @Transient
+    private ActivityStatus activityStatus;
 
 }

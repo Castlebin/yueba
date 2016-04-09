@@ -99,7 +99,7 @@ public class ActivityService {
         Timestamp now = new Timestamp(new Date().getTime());
         switch (activityStatus) {
             case ALL:
-                return activityRepository.findAll(pageRequest);
+                return activityRepository.findByUsername(username, pageRequest);
             case BEFORE:
                 return activityRepository.findByActivityBeginTimeGreaterThan(username, now, pageRequest);
             case IN_PROGRESS:

@@ -10,12 +10,13 @@ import com.xteam.ggq.model.service.UserService;
 import com.xteam.ggq.web.controller.api.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 import java.util.Random;
 
 @RestController
@@ -71,13 +72,14 @@ public class ActivityController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ApiResponse<Page<Activity>> activityList(@RequestParam(defaultValue = "0") int pageNum,
-            @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(defaultValue = "0") int activityStatus, HttpServletRequest request) {
+            @RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "0") int activityStatus,
+            HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null || StringUtils.isEmpty(user.getUsername())) {
             return ApiResponse.returnFail(-1, "用户信息不全");
         }
-        Page<Activity> activityPage = activityService.activities(user.getUsername(), pageNum, pageSize, ActivityStatus.valueOf(activityStatus));
+        Page<Activity> activityPage = activityService.activities(user.getUsername(), pageNum, pageSize,
+                ActivityStatus.valueOf(activityStatus));
 
         if (activityPage == null) {
             return ApiResponse.returnSuccess(null, "用户的活动列表为空");
@@ -90,7 +92,35 @@ public class ActivityController {
             activity.setDistance(1000 * i);
         }
 
+        setActivityStatus(activityPage);
         return ApiResponse.returnSuccess(activityPage);
+    }
+
+    /**
+     * 设置活动状态
+     *
+     * @param activityPage
+     *            活动列表
+     */
+    private void setActivityStatus(Page<Activity> activityPage) {
+        Assert.notNull(activityPage, "活动列表不能为空");
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        for (Activity activity : activityPage.getContent()) {
+            // 如果比活动开始时间早
+            if (now.before(activity.getActivityBeginTime())) {
+                if (now.before(activity.getApplyEndTime())) {// 并且比申请截止时间早
+                    activity.setActivityStatus(ActivityStatus.IN_ENROLLMENT);
+                } else if (now.after(activity.getApplyEndTime())) {// 并且比申请截止时间晚
+                    activity.setActivityStatus(ActivityStatus.BEFORE);
+                }
+            }
+            // 如果比活动开始时间晚
+            else if (now.after(activity.getActivityEndTime())) {// 并且比活动结束时间早
+                activity.setActivityStatus(ActivityStatus.FINISH);
+            } else if (now.before(activity.getActivityEndTime())) {// 并且比活动结束时间晚
+                activity.setActivityStatus(ActivityStatus.IN_PROGRESS);
+            }
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST)

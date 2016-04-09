@@ -10,6 +10,9 @@ import java.sql.Timestamp;
 
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
 
+    @Query("select a from Activity a, ActivityUser au where a.id = au.activityId and au.username = ?1")
+    Page<Activity> findByUsername(String username, Pageable pageable);
+
     @Query("select a from Activity a, ActivityUser au where a.id = au.activityId and au.username = ?1 and a.activityBeginTime > ?2")
     Page<Activity> findByActivityBeginTimeGreaterThan(String username, Timestamp timestamp, Pageable pageable);
 
