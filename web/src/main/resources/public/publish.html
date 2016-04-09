@@ -1,0 +1,273 @@
+<html ng-app="yuebaApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>约吧 - 拓展我的活动圈</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="assets/css/sm.min.css">
+    <link rel="stylesheet" href="assets/css/sm-extend.min.css">
+    <script type='text/javascript' src='assets/js/angular.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='dist/yuebaapp.js' charset='utf-8'></script>
+    <script type='text/javascript' src='dist/controllers/home.js' charset='utf-8'></script>
+</head>
+<body ng-controller="PublishController">
+
+<div class="page-group">
+    <!-- 你的html代码 -->
+    <div class="page">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-left" href="home.html">
+                <span class="icon icon-left"></span>
+                返回
+            </a>
+
+            <h1 class="title">发布活动</h1>
+        </header>
+        <nav class="bar bar-tab" ng-include="'partials/navbar.html'">
+        </nav>
+        <div class="content">
+            <!-- 这里是页面内容区 -->
+            <div class="list-block">
+                <ul>
+                    <!-- Text inputs -->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">人数</div>
+                                <div class="item-input">
+                                    <input type="number" placeholder="人数">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">年龄</div>
+                                <div class="item-input">
+                                    <input id="age-range" type="text" placeholder="年龄" value="25 30">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">活动开始时间</div>
+                                <div class="item-input">
+                                    <input id="activity-start-time" type="text" placeholder="活动开始时间">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">活动结束时间</div>
+                                <div class="item-input">
+                                    <input id="activity-end-time" type="text" placeholder="活动结束时间">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!--<li>-->
+                    <!--<div class="item-content">-->
+                    <!--<div class="item-media"><i class="icon icon-form-name"></i></div>-->
+                    <!--<div class="item-inner">-->
+                    <!--<div class="item-title label">报名开始时间</div>-->
+                    <!--<div class="item-input">-->
+                    <!--<input id="enroll-start-time" type="text" placeholder="报名开始时间">-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</li>-->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">报名截止时间</div>
+                                <div class="item-input">
+                                    <input id="enroll-end-time" type="text" placeholder="报名截止时间">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">集合地点</div>
+                                <div class="item-input">
+                                    <input type="text" placeholder="集合地点">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">目的地</div>
+                                <div class="item-input">
+                                    <input type="text" placeholder="目的地">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">人均费用</div>
+                                <div class="item-input">
+                                    <input type="number" placeholder="人均费用">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">标题</div>
+                                <div class="item-input">
+                                    <input type="text" placeholder="标题">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="align-top">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-comment"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">简介</div>
+                                <div class="item-input">
+                                    <textarea></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">发起人</div>
+                                <div class="item-input">
+                                    <input type="text" placeholder="发起人">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!--<div class="col-50"><a href="#" class="button pb-standalone">Standalone</a></div>-->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">图片</div>
+                                <div class="item-input">
+                                    <input type="file" id="activity-file" multiple="multiple"/>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="" id="activity-img">
+                    </li>
+                </ul>
+            </div>
+            <div class="content-block">
+                <div class="row">
+                    <div class="col-50"><a href="#" class="button button-big button-fill button-danger">取消</a></div>
+                    <div class="col-50"><a href="#" class="button button-big button-fill button-success">提交</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript' src='assets/js/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='assets/js/sm.js' charset='utf-8'></script>
+<script type='text/javascript' src='assets/js/sm-extend.js' charset='utf-8'></script>
+<link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+<script>
+    $.init();
+    /*为什么我会写这段代码？一个屌丝程序狗开发了一款约炮软件真的有用吗。。死到外卖找妹子去吧*/
+    // 年龄段选择器
+    $("#age-range").picker({
+        toolbarTemplate: '<header class="bar bar-nav">\
+      <button class="button button-link pull-right close-picker">确定</button>\
+      <h1 class="title">请选择年龄段</h1>\
+      </header>',
+        cols: [
+            {
+                textAlign: 'center',
+                values: ['16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50']
+            },
+            {
+                textAlign: 'center',
+                values: ['16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50']
+            }
+        ]
+    });
+    // 活动开始时间选择器
+    $("#activity-start-time").datetimePicker({});
+    // 活动结束时间选择器
+    $("#activity-end-time").datetimePicker({});
+    //    // 报名开始时间选择器
+    //    $("#enroll-start-time").datetimePicker({});
+    // 报名结束时间选择器
+    $("#enroll-end-time").datetimePicker({});
+
+    //    //点击时打开图片浏览器
+    //    $(document).on('click', '.pb-standalone', function () {
+    //        var test = $.photoBrowser({
+    //            photos: [
+    //                '//img.alicdn.com/tps/i3/TB1kt4wHVXXXXb_XVXX0HY8HXXX-1024-1024.jpeg',
+    //                '//img.alicdn.com/tps/i1/TB1SKhUHVXXXXb7XXXX0HY8HXXX-1024-1024.jpeg',
+    //                '//img.alicdn.com/tps/i4/TB1AdxNHVXXXXasXpXX0HY8HXXX-1024-1024.jpeg'
+    //            ]
+    //        });
+    //        test.open();
+    //    });
+
+    //    $("#activity-img").click(function () {
+    //        var photo_browser = $.photoBrowser({
+    //            photos: [
+    //                this.src
+    //            ]
+    //        });
+    //        photo_browser.open();
+    //    });
+
+
+    $("#activity-file").change(function () {
+        var objUrl = getObjectURL(this.files[0]);
+        console.log("objUrl = " + objUrl);
+        if (objUrl) {
+            $("#activity-img").attr("src", objUrl).attr("width", "60%");
+        }
+    });
+    //建立一個可存取到該file的url
+    function getObjectURL(file) {
+        var url = null;
+        if (window.createObjectURL != undefined) { // basic
+            url = window.createObjectURL(file);
+        } else if (window.URL != undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file);
+        } else if (window.webkitURL != undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file);
+        }
+        return url;
+    }
+</script>
+</body>
+</html>
