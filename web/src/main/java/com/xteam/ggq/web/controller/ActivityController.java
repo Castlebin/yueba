@@ -15,7 +15,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 @RestController
@@ -71,7 +73,7 @@ public class ActivityController {
      * @return 对应活动类型的活动列表
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ApiResponse<Page<Activity>> activityList(@RequestParam(defaultValue = "0") int pageNum,
+    public ApiResponse<List<Activity>> activityList(@RequestParam(defaultValue = "0") int pageNum,
             @RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "0") int activityStatus,
             HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
@@ -82,7 +84,7 @@ public class ActivityController {
                 ActivityStatus.valueOf(activityStatus));
 
         if (activityPage == null) {
-            return ApiResponse.returnSuccess(null, "用户的活动列表为空");
+            return ApiResponse.returnSuccess(new ArrayList<>(), "用户的活动列表为空");
         }
 
         // 下面伪造一下地理位置数据
@@ -93,7 +95,7 @@ public class ActivityController {
         }
 
         activityService.setActivitiesStatus(activityPage);
-        return ApiResponse.returnSuccess(activityPage);
+        return ApiResponse.returnSuccess(activityPage.getContent());
     }
 
     @RequestMapping(value = "/curractnum", method = RequestMethod.GET)
