@@ -44,7 +44,7 @@ yuebaApp.controller('UserCenterController', ['$scope', '$http', '$q', 'UserServi
     $scope.search();
 
     $scope.list = function () {
-        var params = {pageSize: $scope.pageSize, pageNum: $scope.pageNum, activityStatus: 1};
+        var params = {pageSize: $scope.pageSize, pageNum: $scope.pageNum};
         $http({
             method: 'GET',
             url: '/api/activity/list',
@@ -52,13 +52,11 @@ yuebaApp.controller('UserCenterController', ['$scope', '$http', '$q', 'UserServi
         }).then(
             function (response) {
                 var serverResponse = response.data;
-                console.log("response=" + response);
-                console.log("response.data=" + response.data);
-                if(angular.isObject(serverResponse) && serverResponse.status == 0){
-                    if(angular.isObject(serverResponse.data)) {
+                if (angular.isObject(serverResponse) && serverResponse.status == 0) {
+                    if (angular.isObject(serverResponse.data)) {
                         $scope.totalPages = serverResponse.data.totalPages;
                         $scope.totalElements = serverResponse.data.totalElements;
-                        if(angular.isArray(serverResponse.data.content)){
+                        if (angular.isArray(serverResponse.data.content)) {
                             $scope.activityList = serverResponse.data.content;
                         }
                     }
@@ -74,4 +72,28 @@ yuebaApp.controller('UserCenterController', ['$scope', '$http', '$q', 'UserServi
     };
 
     $scope.list();
+
+    $scope.currentActivityNum = 0;
+
+    $scope.getCurrentActivityNum = function () {
+        $http({
+            method: 'GET',
+            url: '/api/activity/curractnum'
+        }).then(
+            function (response) {
+                var serverResponse = response.data;
+                if (angular.isObject(serverResponse) && serverResponse.status == 0) {
+                    $scope.currentActivityNum = serverResponse.data;
+                }
+                else {
+                    $.alert('得到用户当前活动数量失败了');
+                }
+            },
+            function (response) {
+                $.alert('得到用户当前活动数量失败了');
+            }
+        );
+    }
+
+    $scope.getCurrentActivityNum();
 }]);
