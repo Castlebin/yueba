@@ -28,8 +28,11 @@
                 <span class="icon icon-left"></span>
                 返回
             </a>
-
             <h1 class="title">个人中心</h1>
+            <a class="button button-link button-nav pull-right" href="#" ng-click="logout()">
+                <span class="icon"></span>
+                退出
+            </a>
         </header>
         <nav class="bar bar-tab" ng-controller="NavBarController" ng-include="'partials/navbar.html'">
         </nav>
@@ -45,7 +48,7 @@
                                 <div class="item-media">
                                     <a href="javascript:;" class="file">
                                         <input type="file" id="activity-file" nv-file-select="" uploader="uploader" />
-                                        <img src="{{user.avatar}}" width="44">
+                                        <img ng-src="{{user.avatar}}" width="44" class="avatar">
                                     </a>
                                 </div>
                             </div>
