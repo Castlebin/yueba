@@ -48,7 +48,7 @@ public class User extends BaseEntity {
     private BigDecimal grade = BigDecimal.ZERO;
 
     // 标签
-    private transient Set<Tag> tags = new HashSet<>();
+    private transient Set<String> tags = new HashSet<>();
 
     public User() {
     }

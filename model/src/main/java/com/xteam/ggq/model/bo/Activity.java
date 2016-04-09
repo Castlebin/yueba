@@ -77,7 +77,7 @@ public class Activity extends BaseEntity {
     private transient float distance;
 
     // 标签
-    private transient Set<Tag> tags = new HashSet<>();
+    private transient Set<String> tags = new HashSet<>();
 
     @Version
     private int version;

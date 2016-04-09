@@ -1,9 +1,11 @@
 package com.xteam.ggq.model.service;
 
 import com.xteam.ggq.model.bo.Activity;
+import com.xteam.ggq.model.bo.ActivityTag;
 import com.xteam.ggq.model.bo.ActivityUser;
 import com.xteam.ggq.model.bo.User;
 import com.xteam.ggq.model.dao.ActivityRepository;
+import com.xteam.ggq.model.dao.ActivityTagRepository;
 import com.xteam.ggq.model.dao.ActivityUserRepository;
 import com.xteam.ggq.model.exception.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ActivityService {
@@ -22,6 +26,8 @@ public class ActivityService {
     private ActivityRepository activityRepository;
     @Autowired
     private ActivityUserRepository activityUserRepository;
+    @Autowired
+    private ActivityTagRepository activityTagRepository;
 
     public Activity findActivity(Long activityId) {
         Activity activity = activityRepository.findOne(activityId);
@@ -29,6 +35,10 @@ public class ActivityService {
         if (activity == null) {
             throw new BizException("没有找到相应的活动！");
         }
+
+        Set<ActivityTag> activityTags = activityTagRepository.findByActivityId(activityId);
+        Set<String> tags = activityTags.stream().map(ActivityTag::getTagName).collect(Collectors.toSet());
+        activity.setTags(tags);
 
         return activity;
     }
