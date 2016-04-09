@@ -5,21 +5,40 @@ yuebaApp.controller('RegisterController', ['$scope', '$http', '$q', 'UserService
 
     $scope.globalDefines = globalDefines;
 
-    console.log($scope.globalDefines);
-    $scope.loginUser = {};
+    $scope.registerUser = {gender:'MALE'};
 
-    $scope.login = function () {
+    $scope.register = function () {
+
+        if(requiredFieldIsNull($scope.registerUser.username, '登录名')) return;
+        if(requiredFieldIsNull($scope.registerUser.nickname, '昵称')) return;
+        if(requiredFieldIsNull($scope.registerUser.password, '密码')) return;
+        if(requiredFieldIsNull($scope.registerUser.confirmPassword, '确认密码')) return;
+        if(requiredFieldIsNull($scope.registerUser.birthday, '生日')) return;
+
+        if($scope.registerUser.password != $scope.registerUser.confirmPassword){
+            $.alert('两次输入的密码不一致');
+            return;
+        }
+
         $http({
             method: 'POST',
-            url: '/register',
-            data: $scope.registerUser
+            url: '/api/user/register',
+            params: $scope.registerUser
         }).then(
             function (response) {
-
+                var serverResponse = response.data;
+                if(serverResponse.status == 0){
+                    $.toast('恭喜你，注册成功', 2000, 'success top');
+                    var userVo = serverResponse.data;
+                    UserService.setUser(userVo);
+                    $window.location.href='home.html';
+                }
+                else {
+                    $.alert('注册失败了');
+                }
             },
             function (response) {
-                $window.location.href='home.html';
-                $.alert('登录失败了');
+                $.alert('注册失败了');
             }
         );
     };
