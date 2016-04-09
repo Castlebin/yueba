@@ -15,9 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
 
 @RestController
@@ -159,7 +157,7 @@ public class ActivityController {
 
         activityService.applyActivity(activity, user);
 
-        return ApiResponse.returnSuccess(getActivityInfo(activityId, request));
+        return ApiResponse.returnSuccess(getActivityInfo(activityId, request).getData());
     }
 
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
