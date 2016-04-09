@@ -111,6 +111,9 @@ public class ActivityController {
         User user = (User) request.getSession().getAttribute("user");
 
         // 校验
+        if ( !(activity.getPeopleLimit().intValue()> 0) ) {
+            return ApiResponse.returnFail(-1, "报名人数应该大于0！");
+        }
         if (!activity.getActivityBeginTime().before(activity.getActivityEndTime())) {
             return ApiResponse.returnFail(-1, "活动开始时间应该早于活动截止时间！");
         }
