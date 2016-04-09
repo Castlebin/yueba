@@ -5,3 +5,7 @@
 .small-inner.list-block {
      font-size: .7rem;
 }
+
+.content-block {
+     padding: 0;
+}

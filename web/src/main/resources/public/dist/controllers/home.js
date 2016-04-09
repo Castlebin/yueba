@@ -4,11 +4,18 @@
 yuebaApp.controller('HomeController', ['$scope', '$http', '$q', 'UserService', '$location','$window', '$timeout', '$document','globalDefines', function ($scope, $http, $q, UserService, $location, $window, $timeout, $document, globalDefines) {
     $scope.globalDefines = globalDefines;
 
-    $scope.pageSize = 20;
+    // 最多可加载的页数
+    $scope.maxPagess = 100;
+
+    $scope.pageSize = 5;
     $scope.pageNum = 0;
+    $scope.totalPages = 0;
+    $scope.totalElements = 0;
 
     // home所有的活动列表
     $scope.activityList = [];
+    // infinite 加载，每页加载的list存储
+    $scope.pageList = [];
 
     //一页的活动列表
     $scope.pageList = [];
@@ -22,11 +29,16 @@ yuebaApp.controller('HomeController', ['$scope', '$http', '$q', 'UserService', '
             function (response) {
                 var serverResponse = response.data;
                 if(angular.isObject(serverResponse) && serverResponse.status == 0){
-                    var activityVo = serverResponse.data;
-                    $scope.activity = activityVo;
+                    if(angular.isObject(serverResponse.data)) {
+                        $scope.totalPages = serverResponse.data.totalPages;
+                        $scope.totalElements = serverResponse.data.totalElements;
+                        if(angular.isArray(serverResponse.data.content)){
+                            $scope.activityList = serverResponse.data.content;
+                        }
+                    }
                 }
                 else {
-                    $.alert('找不到相应的活动');
+                    $.alert('没有找到推荐的活动');
                 }
             },
             function (response) {
@@ -35,46 +47,59 @@ yuebaApp.controller('HomeController', ['$scope', '$http', '$q', 'UserService', '
         );
     };
 
+    $scope.loadMoreActivityList = function () {
+        $scope.pageNum += 1;
+
+        $http({
+            method: 'GET',
+            url: '/api/activity/recommend',
+            params: {pageSize: $scope.pageSize, pageNum: $scope.pageNum}
+        }).then(
+            function (response) {
+                var serverResponse = response.data;
+                if(angular.isObject(serverResponse) && serverResponse.status == 0){
+                    if(angular.isObject(serverResponse.data)) {
+                        $scope.totalPages = serverResponse.data.totalPages;
+                        $scope.totalElements = serverResponse.data.totalElements;
+                        if(angular.isArray(serverResponse.data.content)){
+                            $scope.pageList = serverResponse.data.content;
+                            angular.forEach($scope.pageList, function (activity) {
+                                $scope.activityList.push(activity);
+                            });
+                        }
+                    }
+                }
+                else {
+                    $.alert('没有找到推荐的活动');
+                }
+            },
+            function (response) {
+                $.alert('请求失败了');
+            }
+        );
+    };
+
+    $scope.getActivityList();
+
 
     // 加载flag
-    var loading = false;
-    // 最多可加载的条目
-    var maxItems = 100;
-
-    // 每次加载添加多少条目
-    var itemsPerLoad = 20;
-
-    function addItems(number, lastIndex) {
-        // 生成新条目的HTML
-        var html = '';
-        for (var i = lastIndex + 1; i <= lastIndex + number; i++) {
-            html += '<li class="item-content"><div class="item-inner"><div class="item-title">Item ' + i + '</div></div></li>';
-        }
-        // 添加新条目
-        $('.infinite-scroll-bottom .list-container').append(html);
-
-    }
-    //预先加载20条
-    addItems(itemsPerLoad, 0);
-
-    // 上次加载的序号
-    var lastIndex = 20;
-
+    $scope.loading = false;
     // 注册'infinite'事件处理函数
     $(document).on('infinite', '.infinite-scroll-bottom',function() {
-
         // 如果正在加载，则退出
-        if (loading) return;
-
+        if ($scope.loading) return;
         // 设置flag
-        loading = true;
+        $scope.loading = true;
 
         // 模拟1s的加载过程
         setTimeout(function() {
-            // 重置加载flag
-            loading = false;
+            $scope.loadMoreActivityList();
 
-            if (lastIndex >= maxItems) {
+            // 重置加载flag
+            $scope.loading = false;
+
+            if (($scope.pageNum+1)*$scope.pageSize >= $scope.totalElements ||
+                $scope.pageNum > $scope.maxPagess) {
                 // 加载完毕，则注销无限加载事件，以防不必要的加载
                 $.detachInfiniteScroll($('.infinite-scroll'));
                 // 删除加载提示符
@@ -82,10 +107,6 @@ yuebaApp.controller('HomeController', ['$scope', '$http', '$q', 'UserService', '
                 return;
             }
 
-            // 添加新条目
-            addItems(itemsPerLoad, lastIndex);
-            // 更新最后加载的序号
-            lastIndex = $('.list-container li').length;
             //容器发生改变,如果是js滚动，需要刷新滚动
             $.refreshScroller();
         }, 1000);

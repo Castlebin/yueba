@@ -41,7 +41,7 @@ yuebaApp.controller('PublishController', ['$scope', '$http', '$q', 'UserService'
                     if(angular.isObject(resActivity)){
                         $.toast('发起活动成功');
                         $timeout(function () {
-                            $window.location.href = 'detail.html?aid='+resActivity.id;
+                            $window.location.href = 'detail.html?activityId='+resActivity.id;
                         }, 1000);
                     }
                 }

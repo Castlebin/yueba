@@ -85,6 +85,25 @@
                     </li>
                 </ul>
             </div>
+            <div class="list-block media-list">
+                <ul class="list-container">
+                    <li ng-repeat="activity in activityList">
+                        <a href="/detail.html?activityId={{activity.id}}" class="item-link item-content external">
+                            <div class="item-media">
+                                <img ng-src="{{activity.pic}}" width="80">
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title"><span ng-bind="activity.title"></span></div>
+                                </div>
+                                <div class="item-text">
+                                    <span ng-bind="activity.description| cut:true:100:'...'"></span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
