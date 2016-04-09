@@ -7,6 +7,7 @@ yuebaApp.controller('PublishController', ['$scope', '$http', '$q', 'UserService'
     $scope.globalDefines = globalDefines;
 
     $scope.activity = {
+        open: true,
         price: 0,
         pic:""
         //pic:"/assets/img/sample.jpg"
