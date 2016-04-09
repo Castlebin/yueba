@@ -110,7 +110,10 @@ yuebaApp.controller('PublishController', ['$scope', '$http', '$q', 'UserService'
     //};
     uploader.onCompleteItem = function(fileItem, response, status, headers) {
         console.info('onCompleteItem', fileItem, response, status, headers);
-        response
+        if (response.status == 0) {
+            $scope.activity.pic = response.data;
+            $.toast('图片上传成功');
+        }
     };
     //uploader.onCompleteAll = function() {
     //    console.info('onCompleteAll');

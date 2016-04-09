@@ -36,7 +36,6 @@
                 <ul>
                     <li>
                         <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">人数</div>
                                 <div class="item-input">
@@ -47,7 +46,6 @@
                     </li>
                     <li>
                         <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-toggle"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">是否公开</div>
                                 <div class="item-input">
@@ -61,7 +59,6 @@
                     </li>
                     <li>
                         <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">年龄</div>
                                 <div class="item-input">
@@ -72,7 +69,6 @@
                     </li>
                     <li>
                         <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">活动开始时间</div>
                                 <div class="item-input">
@@ -84,7 +80,6 @@
                     </li>
                     <li>
                         <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">活动结束时间</div>
                                 <div class="item-input">
@@ -96,7 +91,6 @@
                     </li>
                     <li>
                         <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">报名截止时间</div>
                                 <div class="item-input">
@@ -108,7 +102,6 @@
                     </li>
                     <li>
                         <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">集合地点</div>
                                 <div class="item-input">
@@ -119,7 +112,6 @@
                     </li>
                     <li>
                         <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">活动地点</div>
                                 <div class="item-input">
@@ -130,7 +122,6 @@
                     </li>
                     <li>
                         <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">人均费用</div>
                                 <div class="item-input">
@@ -141,7 +132,6 @@
                     </li>
                     <li>
                         <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">标题</div>
                                 <div class="item-input">
@@ -152,7 +142,6 @@
                     </li>
                     <li class="align-top">
                         <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-comment"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">活动内容说明</div>
                                 <div class="item-input">
@@ -163,18 +152,26 @@
                     </li>
                     <li>
                         <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">图片</div>
                                 <div class="item-input">
-                                    <input type="file" nv-file-select="" uploader="uploader" />
-                                    <!--<input type="file" id="activity-file" multiple="multiple"/>-->
+                                    <a href="javascript:;" class="button button-light file">
+                                        <input type="file" nv-file-select="" uploader="uploader" />上传图片
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </li>
                     <li>
-                        <img src="" id="activity-img" style="text-align: center">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="card">
+                                    <div valign="bottom" class="card-header color-white no-border no-padding">
+                                        <img class='card-cover' src="assets/img/logo.png" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -216,25 +213,25 @@
     // 报名结束时间选择器
     $("#enroll-end-time").datetimePicker({});
 
-    $("#activity-file").change(function () {
-        var objUrl = getObjectURL(this.files[0]);
-        console.log("objUrl = " + objUrl);
-        if (objUrl) {
-            $("#activity-img").attr("src", objUrl).attr("width", "60%");
-        }
-    });
-    //建立一個可存取到該file的url
-    function getObjectURL(file) {
-        var url = null;
-        if (window.createObjectURL != undefined) { // basic
-            url = window.createObjectURL(file);
-        } else if (window.URL != undefined) { // mozilla(firefox)
-            url = window.URL.createObjectURL(file);
-        } else if (window.webkitURL != undefined) { // webkit or chrome
-            url = window.webkitURL.createObjectURL(file);
-        }
-        return url;
-    }
+//    $("#activity-file").change(function () {
+//        var objUrl = getObjectURL(this.files[0]);
+//        console.log("objUrl = " + objUrl);
+//        if (objUrl) {
+//            $("#activity-img").attr("src", objUrl).attr("width", "60%");
+//        }
+//    });
+//    //建立一個可存取到該file的url
+//    function getObjectURL(file) {
+//        var url = null;
+//        if (window.createObjectURL != undefined) { // basic
+//            url = window.createObjectURL(file);
+//        } else if (window.URL != undefined) { // mozilla(firefox)
+//            url = window.URL.createObjectURL(file);
+//        } else if (window.webkitURL != undefined) { // webkit or chrome
+//            url = window.webkitURL.createObjectURL(file);
+//        }
+//        return url;
+//    }
 </script>
 </body>
 </html>
