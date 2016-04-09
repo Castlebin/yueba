@@ -50,11 +50,11 @@ public class ActivityController {
         User user = (User) request.getSession().getAttribute("user");
 
         // 校验
-        if ( activity.getApplyEndTime().after(activity.getActivityBeginTime()) ) {
-            return ApiResponse.returnFail(-1, "活动开始时间应该晚于活动报名截止时间！");
+        if ( !activity.getActivityBeginTime().before(activity.getActivityEndTime()) ) {
+            return ApiResponse.returnFail(-1, "活动开始时间应该早于活动截止时间！");
         }
-        if ( activity.getActivityBeginTime().after(activity.getActivityEndTime()) ) {
-            return ApiResponse.returnFail(-1, "活动开始时间应该早于活动结束时间！");
+        if ( !activity.getApplyEndTime().before(activity.getActivityBeginTime()) ) {
+            return ApiResponse.returnFail(-1, "活动报名截止时间应该早于活动开始时间！");
         }
 
         return ApiResponse.returnSuccess(activityService.postActivity(activity, user));
@@ -67,14 +67,17 @@ public class ActivityController {
 
         // 时间校验
         if ( System.currentTimeMillis() > activity.getApplyEndTime().getTime() ) {
-            return ApiResponse.returnFail(-1, "报名已截止！");
+            return ApiResponse.returnFail(-1, "报名已截止！请下次赶早！么么哒！");
         }
         // 人数校验
         int maleCount = activity.getApplyMaleCount();
         int femaleCount = activity.getApplyFemaleCount();
+        if ( (maleCount + femaleCount) >= activity.getPeopleLimit() ) {
+            return ApiResponse.returnFail(-1, "报名人数已满，请下次赶早！么么哒！");
+        }
         if ( (user.getGender() == User.Gender.MALE && (maleCount > femaleCount) )
                 || (user.getGender() == User.Gender.FAMALE && (femaleCount > maleCount) )) {
-            return ApiResponse.returnFail(-1, "报名人数性别比例不符，请稍后再试！");
+            return ApiResponse.returnFail(-1, "报名人数性别比例不符，请稍后再试！么么哒！");
         }
 
         activityService.applyActivity(activity, user);
