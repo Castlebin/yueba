@@ -41,7 +41,8 @@
                                   ng-if="activity.activityStatus != 'IN_ENROLLMENT'"></span>
                             <a href="#" class="button button-fill button-success"
                                ng-click="apply()"
-                               ng-if="activity.activityStatus == 'IN_ENROLLMENT'">报名参加</a>
+                               ng-if="activity.activityStatus == 'IN_ENROLLMENT' && !activity.applied">报名参加</a>
+                            <span class="color-primary" ng-if="activity.applied">已报名</span>
                     </div>
                     <div class="card-content">
                         <div class="card-content-inner">
