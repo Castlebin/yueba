@@ -36,17 +36,23 @@ public class UserController {
 
     @DoNotNeedLogin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ApiResponse<User> addUser(String username, String password, String nickname, User.Gender gender,
+    public ApiResponse<User> addUser(String username, String password, String mobile, String nickname, User.Gender gender,
             String birthday, HttpServletRequest request)
                     throws UnsupportedEncodingException, NoSuchAlgorithmException, ParseException {
         username = username.trim();
+        assert username.isEmpty() == false;
         if ( userService.existUsername(username) ) {
             return ApiResponse.returnFail(-1, "亲，该用户名已被注册，请换一个吧！");
+        }
+        mobile = mobile.trim();
+        assert mobile.isEmpty() == false;
+        if ( userService.existMobile(mobile) ) {
+            return ApiResponse.returnFail(-1, "亲，该手机号已被注册，请换一个吧！");
         }
 
         String salt = UUID.randomUUID().toString();
         password = Md5Utils.EncoderByMd5(password + salt);
-        User user = new User(username, password, salt, nickname, gender,
+        User user = new User(username, password, salt, mobile, nickname, gender,
                 new Timestamp(TimeUtils.DATA_FORMAT_YYYY_MM_DD.parse(birthday).getTime()));
         userService.addUser(user);
 

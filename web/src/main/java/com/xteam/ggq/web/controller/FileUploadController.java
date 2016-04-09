@@ -1,8 +1,8 @@
 package com.xteam.ggq.web.controller;
 
-import com.xteam.ggq.Application;
 import com.xteam.ggq.web.controller.api.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,18 +19,23 @@ import java.util.UUID;
 @RestController
 public class FileUploadController {
 
+    @Value("${upload.path}")
+    private String uploadPath;
+
     @RequestMapping(method = RequestMethod.POST, value = "/upload")
     public ApiResponse handleFileUpload(@RequestParam("file") MultipartFile file) {
         if (!file.isEmpty()) {
             try {
-                String name = Application.ROOT + "/" + UUID.randomUUID().toString()
+                String relativePath = "/" + UUID.randomUUID().toString()
                         + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+                String name = uploadPath + relativePath;
                 File target = new File(name);
                 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(target));
                 FileCopyUtils.copy(file.getInputStream(), stream);
                 stream.close();
-                return ApiResponse.returnSuccess(name, "文件上传成功！");
+                return ApiResponse.returnSuccess(relativePath, "文件上传成功！");
             } catch (Exception e) {
+                log.error("文件上传失败！errMsg: "+e.getMessage(), e);
                 return ApiResponse.returnFail(-1, "文件上传失败！");
             }
         } else {

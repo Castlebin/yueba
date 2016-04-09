@@ -56,13 +56,14 @@ public class User extends BaseEntity {
     public User() {
     }
 
-    public User(String username, String password, String salt, String nickname, Gender gender, Timestamp birthday) {
+    public User(String username, String password, String salt, String mobile, String nickname, Gender gender, Timestamp birthday) {
         this.username = username;
         this.password = password;
         this.salt = salt;
         this.nickname = nickname;
         this.gender = gender;
         this.birthday = birthday;
+        this.mobile = mobile;
     }
 
     public enum Gender {

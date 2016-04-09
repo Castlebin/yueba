@@ -11,6 +11,7 @@ yuebaApp.controller('RegisterController', ['$scope', '$http', '$q', 'UserService
 
         if(requiredFieldIsNull($scope.registerUser.username, '登录名')) return;
         if(requiredFieldIsNull($scope.registerUser.nickname, '昵称')) return;
+        if(requiredFieldIsNull($scope.registerUser.mobile, '手机号码')) return;
         if(requiredFieldIsNull($scope.registerUser.password, '密码')) return;
         if(requiredFieldIsNull($scope.registerUser.confirmPassword, '确认密码')) return;
         if(requiredFieldIsNull($scope.registerUser.birthday, '生日')) return;
