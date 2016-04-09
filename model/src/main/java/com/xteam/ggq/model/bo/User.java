@@ -56,7 +56,7 @@ public class User extends BaseEntity {
     }
 
     public enum Gender {
-        MALE, FAMALE
+        MALE, FEMALE
     }
 
 }

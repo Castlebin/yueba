@@ -84,7 +84,7 @@ public class ActivityController {
             return ApiResponse.returnFail(-1, "报名人数已满，请下次赶早！么么哒！");
         }
         if ( (user.getGender() == User.Gender.MALE && (maleCount > femaleCount) )
-                || (user.getGender() == User.Gender.FAMALE && (femaleCount > maleCount) )) {
+                || (user.getGender() == User.Gender.FEMALE && (femaleCount > maleCount) )) {
             return ApiResponse.returnFail(-1, "报名人数性别比例不符，请稍后再试！么么哒！");
         }
 
