@@ -9,7 +9,7 @@ yuebaApp.controller('UserCenterController', ['$scope', '$http', '$q', 'UserServi
     // 最多可加载的页数
     $scope.maxPagess = 100;
 
-    $scope.pageSize = 5;
+    $scope.pageSize = 100;
     $scope.pageNum = 0;
     $scope.totalPages = 0;
     $scope.totalElements = 0;
@@ -98,7 +98,6 @@ yuebaApp.controller('UserCenterController', ['$scope', '$http', '$q', 'UserServi
 
     $scope.list();
 
-
     //图片上传处理逻辑
     var uploader = $scope.uploader = new FileUploader({
         url: '/upload',
@@ -114,14 +113,13 @@ yuebaApp.controller('UserCenterController', ['$scope', '$http', '$q', 'UserServi
         }
     });
     uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
-        console.info('onWhenAddingFileFailed', item, filter, options);
         $.alert('请选择图片上传');
     };
     uploader.onErrorItem = function(fileItem, response, status, headers) {
         $.alert('头像上传失败了');
     };
     uploader.onCompleteItem = function(fileItem, response, status, headers) {
-        console.info('onCompleteItem', fileItem, response, status, headers);
+        uploader.clearQueue();
         if (response.status == 0) {
             $.toast('头像上传成功');
             $scope.user.avatar = response.data;
