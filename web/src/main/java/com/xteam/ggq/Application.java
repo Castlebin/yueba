@@ -27,9 +27,7 @@ public class Application extends SpringBootServletInitializer {
 
     @Bean
     CommandLineRunner init() {
-        return (String[] args) -> {
-            new File(ROOT).mkdirs();
-        };
+        return (String[] args) -> new File(ROOT).mkdirs();
     }
 
 }

@@ -11,8 +11,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -32,15 +30,15 @@ public class User extends BaseEntity {
 
     private String nickname;
 
+    // 头像
+    private String avatar;
+
     @Column(nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Timestamp birthday;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
-
-    // Tag
-    private transient Set<Tag> tags = new HashSet<>();
 
     // 用户星级
     private BigDecimal grade = BigDecimal.ZERO;

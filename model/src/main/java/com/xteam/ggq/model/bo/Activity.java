@@ -3,13 +3,9 @@ package com.xteam.ggq.model.bo;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.security.Timestamp;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -31,9 +27,14 @@ public class Activity extends BaseEntity {
     private Integer peopleLimit;
 
     // 活动参与人年龄下限
-    private Integer minAge = 18;
+    private Integer minAge;
     // 上限，为null表示无限制
     private Integer maxAge;
+
+    // 已报名男性人数
+    private int applyMaleCount;
+    // 已报名女性人数
+    private int applyFemaleCount;
 
     @Enumerated(EnumType.STRING)
     private ActivityType activityType = ActivityType.PUBLIC;
@@ -63,8 +64,8 @@ public class Activity extends BaseEntity {
     // 活动费用
     private BigDecimal price = BigDecimal.ZERO;
 
-    // 标签
-    private transient Set<Tag> tags;
+    @Version
+    private int version;
 
     /** 公开活动还是私密活动 */
     public enum ActivityType {
