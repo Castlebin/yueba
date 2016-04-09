@@ -15,7 +15,7 @@ yuebaApp.controller('PublishController', ['$scope', '$http', '$q', 'UserService'
         $http({
             method: 'POST',
             url: '/api/activity',
-            params: $scope.activity
+            data: $scope.activity
         }).then(
             function (response) {
                 var serverResponse = response.data;
