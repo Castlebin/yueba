@@ -35,7 +35,8 @@ public class ActivityController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ApiResponse<Activity> getActivityInfo(Long activityId, HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
+        String username = (String)request.getSession().getAttribute("username");
+        User user = userService.findUser(username);
         Activity activity = activityService.findActivityAndSetUsers(activityId);
         // 本人是否已报名
         activity.setApplied(activityUserService.hasApplied(user.getUsername(), activity));
@@ -76,7 +77,8 @@ public class ActivityController {
     public ApiResponse<Page<Activity>> activityList(@RequestParam(defaultValue = "0") int pageNum,
             @RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "0") int activityStatus,
             HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
+        String username = (String)request.getSession().getAttribute("username");
+        User user = userService.findUser(username);
         if (user == null || StringUtils.isEmpty(user.getUsername())) {
             return ApiResponse.returnFail(-1, "用户信息不全");
         }
@@ -99,7 +101,8 @@ public class ActivityController {
 
     @RequestMapping(value = "/curractnum", method = RequestMethod.GET)
     public ApiResponse getCurrentActivityNum(HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
+        String username = (String)request.getSession().getAttribute("username");
+        User user = userService.findUser(username);
         if (user == null || StringUtils.isEmpty(user.getUsername())) {
             return ApiResponse.returnFail(-1, "用户信息不全");
         }
@@ -108,7 +111,8 @@ public class ActivityController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ApiResponse<Activity> postActivity(@RequestBody Activity activity, HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
+        String username = (String)request.getSession().getAttribute("username");
+        User user = userService.findUser(username);
 
         // 校验
         if ( !(activity.getPeopleLimit().intValue()> 0) ) {
@@ -127,7 +131,8 @@ public class ActivityController {
 
     @RequestMapping(value = "/apply", method = RequestMethod.POST)
     public ApiResponse apply(Long activityId, HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
+        String username = (String)request.getSession().getAttribute("username");
+        User user = userService.findUser(username);
         Activity activity = activityService.findActivity(activityId);
 
         // 已经报名过了？
@@ -159,6 +164,9 @@ public class ActivityController {
         if (maxAge != null && age > maxAge) {
             return ApiResponse.returnFail(-1, "该活动发起者限制年龄最大为" + maxAge + "岁！");
         }
+        if ( user.getAmount().compareTo(activity.getPrice()) < 0 ) {
+            return ApiResponse.returnFail(-1, "您的可用额度不足，请及时还款！");
+        }
 
         activityService.applyActivity(activity, user);
 
@@ -167,7 +175,7 @@ public class ActivityController {
 
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
     public ApiResponse<ActivityUser> comment(ActivityUser activityUser, HttpServletRequest request) {
-        String username = ((User) request.getSession().getAttribute("user")).getUsername();
+        String username = (String)request.getSession().getAttribute("username");
         assert username.equals(activityUser.getUsername());
 
         ActivityUser originActivityUser = activityUserService.find(activityUser.getId());

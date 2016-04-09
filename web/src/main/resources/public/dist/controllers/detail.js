@@ -77,6 +77,8 @@ yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService',
             username: UserService.getUser().username
         };
 
+        $.alert('报名参加活动将扣除相应的用户额度，请确认！');
+
         $http({
             method: 'POST',
             url: '/api/activity/apply',

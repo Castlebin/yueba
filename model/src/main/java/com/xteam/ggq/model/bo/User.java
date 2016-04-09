@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -46,6 +43,11 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    // 用户额度
+    private BigDecimal totalAmount = new BigDecimal("5000");
+    // 用户可用额度
+    private BigDecimal amount = new BigDecimal("5000");
+
     // 用户星级
     private BigDecimal grade = BigDecimal.ZERO;
 
@@ -54,6 +56,9 @@ public class User extends BaseEntity {
 
     // 已参加活动次数
     private int participateCount;
+
+    @Version
+    private int version;
 
     public User() {
     }

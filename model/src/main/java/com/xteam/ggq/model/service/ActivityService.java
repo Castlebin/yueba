@@ -80,6 +80,10 @@ public class ActivityService {
 
         // 用户参加活动次数+1
         user.setParticipateCount(user.getParticipateCount() + 1);
+        // 非活动发起人，扣除额度
+        if ( !activity.getUsername().equals(user.getUsername()) ) {
+            user.setAmount(user.getAmount().subtract(activity.getPrice()));
+        }
 
         activityRepository.save(activity);
         activityUserRepository.save(activityUser);

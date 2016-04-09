@@ -30,8 +30,7 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ApiResponse<User> getUserInfo(HttpServletRequest request) {
-        String username = ((User) request.getSession().getAttribute("user")).getUsername();
-
+        String username = (String)request.getSession().getAttribute("username");
         return ApiResponse.returnSuccess(userService.findUser(username));
     }
 
@@ -57,7 +56,7 @@ public class UserController {
                 new Timestamp(TimeUtils.DATA_FORMAT_YYYY_MM_DD.parse(birthday).getTime()));
         userService.addUser(user);
 
-        request.getSession().setAttribute("user", user);
+        request.getSession().setAttribute("username", user.getUsername());
 
         return ApiResponse.returnSuccess(user);
     }
@@ -66,7 +65,7 @@ public class UserController {
     public ApiResponse<User> updateUser(@RequestBody User userVo, HttpServletRequest request)
             throws UnsupportedEncodingException, NoSuchAlgorithmException, ParseException {
         log.info("Update接口请求user对象:[%s]", userVo.toString());
-        String username = ((User) request.getSession().getAttribute("user")).getUsername();
+        String username = (String)request.getSession().getAttribute("username");
         User user = userService.findUser(username);
         user.setAvatar(userVo.getAvatar());
         user.setNickname(userVo.getNickname());
@@ -84,7 +83,7 @@ public class UserController {
             return ApiResponse.returnFail(-1, "用户名或密码不正确！");
         }
 
-        request.getSession().setAttribute("user", user);
+        request.getSession().setAttribute("username", user.getUsername());
 
         return ApiResponse.returnSuccess(user);
     }
