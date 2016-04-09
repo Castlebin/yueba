@@ -26,14 +26,13 @@ public class FileUploadController {
     public ApiResponse handleFileUpload(@RequestParam("file") MultipartFile file) {
         if (!file.isEmpty()) {
             try {
-                String relativePath = "/upload/" + UUID.randomUUID().toString()
+                String path = uploadPath + "/" + UUID.randomUUID().toString()
                         + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-                String name = uploadPath + relativePath;
-                File target = new File(name);
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(target));
+                log.info("upload file path: " + path);
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(path)));
                 FileCopyUtils.copy(file.getInputStream(), stream);
                 stream.close();
-                return ApiResponse.returnSuccess(relativePath, "文件上传成功！");
+                return ApiResponse.returnSuccess(path, "文件上传成功！");
             } catch (Exception e) {
                 log.error("文件上传失败！errMsg: "+e.getMessage(), e);
                 return ApiResponse.returnFail(-1, "文件上传失败！");
