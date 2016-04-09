@@ -75,7 +75,7 @@ public class ActivityController {
      * @return 对应活动类型的活动列表
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ApiResponse<List<Activity>> activityList(@RequestParam(defaultValue = "0") int pageNum,
+    public ApiResponse<Page<Activity>> activityList(@RequestParam(defaultValue = "0") int pageNum,
             @RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "0") int activityStatus,
             HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
@@ -86,7 +86,7 @@ public class ActivityController {
                 ActivityStatus.valueOf(activityStatus));
 
         if (activityPage == null) {
-            return ApiResponse.returnSuccess(new ArrayList<>(), "用户的活动列表为空");
+            return ApiResponse.returnSuccess(null, "用户的活动列表为空");
         }
 
         // 下面伪造一下地理位置数据
@@ -96,7 +96,7 @@ public class ActivityController {
             activity.setDistance(1000 * i);
         }
 
-        return ApiResponse.returnSuccess(activityPage.getContent());
+        return ApiResponse.returnSuccess(activityPage);
     }
 
     @RequestMapping(value = "/curractnum", method = RequestMethod.GET)
