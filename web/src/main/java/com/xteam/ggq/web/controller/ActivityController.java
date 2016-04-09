@@ -118,6 +118,7 @@ public class ActivityController {
             return ApiResponse.returnFail(-1, "活动报名截止时间应该早于活动开始时间！");
         }
 
+        // 不好意思，我要开始偷懒了
         return ApiResponse.returnSuccess(activityService.postActivity(activity, user));
     }
 
