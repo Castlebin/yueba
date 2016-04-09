@@ -1,22 +1,14 @@
 <!--<nav class="bar bar-tab" ng-controller="NavBarController">-->
-    <a class="tab-item external active" href="/home.html">
+    <a class="tab-item external" ng-class="{'active': currentUrl=='/home.html'}" href="/home.html">
         <span class="icon icon-home"></span>
         <span class="tab-label">首页</span>
     </a>
 
-    <a class="tab-item external" href="/publish.html">
+    <a class="tab-item external" ng-class="{'active': currentUrl=='/publish.html'}" href="/publish.html">
         <span class="icon icon-star"></span>
         <span class="tab-label">发起活动</span>
     </a>
-    <!--<a class="tab-item external" href="#">-->
-        <!--<span class="icon icon-cart"></span>-->
-        <!--<span class="tab-label">文案</span>-->
-    <!--</a>-->
-    <!--<a class="tab-item external" href="#">-->
-        <!--<span class="icon icon-settings"></span>-->
-        <!--<span class="tab-label">我的</span>-->
-    <!--</a>-->
-    <a class="tab-item external" href="/usercenter.html">
+    <a class="tab-item external" ng-class="{'active': currentUrl=='/usercenter.html'}" href="/usercenter.html">
         <span class="icon icon-me"></span>
         <span class="tab-label">我的</span>
         <span class="badge">2</span>
