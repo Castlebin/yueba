@@ -1,21 +1,23 @@
-package com.xteam.ggq.model.bo;
+package com.xteam.ggq.web.vo;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.xteam.ggq.model.bo.Activity;
+import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.math.BigDecimal;
 import java.security.Timestamp;
 
-@Entity
-@Getter
-@Setter
-public class Activity extends BaseEntity {
+@Data
+public class ActivtyInfoVo {
+
+    private Long id;
 
     // 发起人
     private String username;
+    // 发起人昵称
+    private String nickname;
 
-    @Column(nullable = false)
     private String title;
 
     private String description;
@@ -31,13 +33,8 @@ public class Activity extends BaseEntity {
     // 上限，为null表示无限制
     private Integer maxAge;
 
-    // 已报名男性人数
-    private int applyMaleCount;
-    // 已报名女性人数
-    private int applyFemaleCount;
-
     @Enumerated(EnumType.STRING)
-    private ActivityType activityType = ActivityType.PUBLIC;
+    private Activity.ActivityType activityType;
 
     // 活动开始时间
     private Timestamp activityBeginTime;
@@ -62,17 +59,6 @@ public class Activity extends BaseEntity {
     private Double activityAddressLat;
 
     // 活动费用
-    private BigDecimal price = BigDecimal.ZERO;
-
-    @Version
-    private int version;
-
-    /** 公开活动还是私密活动 */
-    public enum ActivityType {
-        /** 公开 */
-        PUBLIC,
-        /** 私密 */
-        PRIVATE
-    }
+    private BigDecimal price;
 
 }
