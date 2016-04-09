@@ -19,7 +19,7 @@ yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService',
         }).then(
             function (response) {
                 var serverResponse = response.data;
-                if(serverResponse.status == 0){
+                if(angular.isObject(serverResponse) && serverResponse.status == 0){
                     var activityVo = serverResponse.data;
                     $scope.activity = activityVo;
                 }
