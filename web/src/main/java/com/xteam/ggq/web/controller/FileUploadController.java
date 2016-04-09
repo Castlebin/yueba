@@ -28,6 +28,7 @@ public class FileUploadController {
             try {
                 String path = uploadPath + "/" + UUID.randomUUID().toString()
                         + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+                log.info("upload file path: " + path);
                 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(path)));
                 FileCopyUtils.copy(file.getInputStream(), stream);
                 stream.close();
