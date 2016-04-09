@@ -15,7 +15,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 @RestController
@@ -56,6 +58,8 @@ public class ActivityController {
             activity.setDistance(rnd.nextInt(RT));
         }
 
+        activityService.setActivitiesStatus(activityPage);
+
         return ApiResponse.returnSuccess(activityPage);
     }
 
@@ -92,7 +96,6 @@ public class ActivityController {
             activity.setDistance(1000 * i);
         }
 
-        activityService.setActivitiesStatus(activityPage);
         return ApiResponse.returnSuccess(activityPage);
     }
 
@@ -125,6 +128,10 @@ public class ActivityController {
         User user = (User) request.getSession().getAttribute("user");
         Activity activity = activityService.findActivity(activityId);
 
+        // 已经报名过了？
+        if (activityUserService.hasApplied(user.getUsername(), activity)) {
+            return ApiResponse.returnFail(-1, "亲，你已经报名参加过该活动啦，无需重复报名！");
+        }
         // 时间校验
         if (System.currentTimeMillis() > activity.getApplyEndTime().getTime()) {
             return ApiResponse.returnFail(-1, "报名已截止！请下次赶早！么么哒！");
@@ -149,14 +156,10 @@ public class ActivityController {
         if (maxAge != null && age > maxAge) {
             return ApiResponse.returnFail(-1, "该活动发起者限制年龄最大为" + maxAge + "岁！");
         }
-        // 已经报名过了？
-        if (activityUserService.hasApplied(user.getUsername(), activity)) {
-            return ApiResponse.returnFail(-1, "亲，你已经报名参加过该活动啦，无需重复报名！");
-        }
 
         activityService.applyActivity(activity, user);
 
-        return ApiResponse.returnSuccess();
+        return ApiResponse.returnSuccess(getActivityInfo(activityId, request));
     }
 
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
