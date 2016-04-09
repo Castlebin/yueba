@@ -1,14 +1,14 @@
 /**
  * Created by wainguo on 16/4/8.
  */
-yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService', '$location','$window', '$timeout', '$document','globalDefines', function ($scope, $http, $q, UserService, $location, $window, $timeout, $document, globalDefines) {
+yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService', '$location', '$window', '$timeout', '$document', 'globalDefines', function ($scope, $http, $q, UserService, $location, $window, $timeout, $document, globalDefines) {
     $scope.globalDefines = globalDefines;
 
     $scope.activityId = $location.search().activityId;
     $scope.activity = {};
 
     $scope.getActivityDetail = function () {
-        if(!$scope.activityId) {
+        if (!$scope.activityId) {
             $.alert('找不到相应的活动');
         }
         $http({
@@ -18,14 +18,14 @@ yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService',
         }).then(
             function (response) {
                 var serverResponse = response.data;
-                if(angular.isObject(serverResponse) && serverResponse.status == 0){
+                if (angular.isObject(serverResponse) && serverResponse.status == 0) {
                     var activityVo = serverResponse.data;
                     $scope.activity = activityVo;
                 }
                 else {
                     $.alert('找不到相应的活动');
                     $.confirm('刷新重新获取?', '获取活动详情失败了', function () {
-                        $window.location.href=$location.absUrl();
+                        $window.location.href = $location.absUrl();
                     });
                 }
             },
@@ -36,12 +36,12 @@ yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService',
     };
 
     $scope.apply = function () {
-        if(!$scope.activityId) {
+        if (!$scope.activityId) {
             $.alert('找不到相应的活动');
             return;
         }
         var user = UserService.getUser();
-        if(!angular.isObject(user) || !user.username) {
+        if (!angular.isObject(user) || !user.username) {
             $.alert('用户参数错误');
             return;
         }
@@ -58,7 +58,7 @@ yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService',
         }).then(
             function (response) {
                 var serverResponse = response.data;
-                if(serverResponse.status == 0){
+                if (serverResponse.status == 0) {
                     $.toast('恭喜你，报名参加活动成功了');
                 }
                 else {
@@ -73,4 +73,28 @@ yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService',
 
     //拉取活动详情
     $scope.getActivityDetail();
+
+    $scope.currentActivityNum = 0;
+
+    $scope.getCurrentActivityNum = function () {
+        $http({
+            method: 'GET',
+            url: '/api/activity/curractnum'
+        }).then(
+            function (response) {
+                var serverResponse = response.data;
+                if (angular.isObject(serverResponse) && serverResponse.status == 0) {
+                    $scope.currentActivityNum = serverResponse.data;
+                }
+                else {
+                    $.alert('得到用户当前活动数量失败了');
+                }
+            },
+            function (response) {
+                $.alert('得到用户当前活动数量失败了');
+            }
+        );
+    }
+
+    $scope.getCurrentActivityNum();
 }]);
