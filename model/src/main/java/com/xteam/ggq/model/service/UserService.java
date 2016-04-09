@@ -35,6 +35,11 @@ public class UserService {
         return user;
     }
 
+    public boolean existUsername(String username) {
+        User user = userRepository.findByUsername(username);
+       return user != null;
+    }
+
     public void addUser(User user) {
         userRepository.saveAndFlush(user);
     }

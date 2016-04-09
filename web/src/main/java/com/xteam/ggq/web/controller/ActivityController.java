@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Random;
 
 @RestController
@@ -156,6 +157,20 @@ public class ActivityController {
         if ((user.getGender() == User.Gender.MALE && (maleCount > femaleCount))
                 || (user.getGender() == User.Gender.FEMALE && (femaleCount > maleCount))) {
             return ApiResponse.returnFail(-1, "报名人数性别比例不符，请稍后再试！么么哒！");
+        }
+        // 年龄校验
+        int age = new Date(System.currentTimeMillis()).getYear() - user.getBirthday().getYear();
+        Integer minAge = activity.getMinAge();
+        Integer maxAge = activity.getMaxAge();
+        if ( minAge != null && age < minAge ) {
+            return ApiResponse.returnFail(-1, "该活动发起者限制年龄最小为" + minAge + "岁！");
+        }
+        if ( maxAge != null && age > maxAge ) {
+            return ApiResponse.returnFail(-1, "该活动发起者限制年龄最大为" + maxAge + "岁！");
+        }
+        // 已经报名过了？
+        if ( activityUserService.hasApplied(user.getUsername(), activity) ) {
+            return ApiResponse.returnFail(-1, "亲，你已经报名参加过该活动啦，无需重复报名！");
         }
 
         activityService.applyActivity(activity, user);

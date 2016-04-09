@@ -39,6 +39,11 @@ public class UserController {
     public ApiResponse<User> addUser(String username, String password, String nickname, User.Gender gender,
             String birthday, HttpServletRequest request)
                     throws UnsupportedEncodingException, NoSuchAlgorithmException, ParseException {
+        username = username.trim();
+        if ( userService.existUsername(username) ) {
+            return ApiResponse.returnFail(-1, "亲，该用户名已被注册，请换一个吧！");
+        }
+
         String salt = UUID.randomUUID().toString();
         password = Md5Utils.EncoderByMd5(password + salt);
         User user = new User(username, password, salt, nickname, gender,
