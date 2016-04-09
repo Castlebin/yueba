@@ -44,4 +44,8 @@ public class UserService {
         userRepository.saveAndFlush(user);
     }
 
+    public User upateUser(User user) {
+        return userRepository.saveAndFlush(user);
+    }
+
 }

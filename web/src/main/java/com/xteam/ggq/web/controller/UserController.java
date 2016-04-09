@@ -8,7 +8,6 @@ import com.xteam.ggq.web.annotation.DoNotNeedLogin;
 import com.xteam.ggq.web.controller.api.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,12 +41,12 @@ public class UserController {
             User.Gender gender, String birthday, HttpServletRequest request)
                     throws UnsupportedEncodingException, NoSuchAlgorithmException, ParseException {
         username = username.trim();
-        assert username.isEmpty() == false;
+        assert !username.isEmpty();
         if (userService.existUsername(username)) {
             return ApiResponse.returnFail(-1, "亲，该用户名已被注册，请换一个吧！");
         }
         mobile = mobile.trim();
-        assert mobile.isEmpty() == false;
+        assert !mobile.isEmpty();
         if (userService.existMobile(mobile)) {
             return ApiResponse.returnFail(-1, "亲，该手机号已被注册，请换一个吧！");
         }
@@ -64,12 +63,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ApiResponse<User> updateUser(@RequestBody User user)
+    public ApiResponse<User> updateUser(@RequestBody User user, HttpServletRequest request)
             throws UnsupportedEncodingException, NoSuchAlgorithmException, ParseException {
         log.info("Update接口请求user对象:[%s]", user.toString());
-        userService.addUser(user);
+        User sessionUser = (User) request.getSession().getAttribute("user");
+        sessionUser.setAvatar(user.getAvatar());
+        sessionUser.setNickname(user.getNickname());
 
-        return ApiResponse.returnSuccess(user);
+        return ApiResponse.returnSuccess(userService.upateUser(sessionUser));
     }
 
     @DoNotNeedLogin
