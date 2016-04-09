@@ -22,11 +22,12 @@ yuebaApp.controller('HomeController', ['$scope', '$http', '$q', 'UserService', '
             function (response) {
                 var serverResponse = response.data;
                 if(angular.isObject(serverResponse) && serverResponse.status == 0){
-                    var activityVo = serverResponse.data;
-                    $scope.activity = activityVo;
+                    if(angular.isObject(serverResponse.data) && angular.isArray(serverResponse.data.content)){
+                        $scope.activityList = serverResponse.data.content;
+                    }
                 }
                 else {
-                    $.alert('找不到相应的活动');
+                    $.alert('没有找到推荐的活动');
                 }
             },
             function (response) {
@@ -34,6 +35,8 @@ yuebaApp.controller('HomeController', ['$scope', '$http', '$q', 'UserService', '
             }
         );
     };
+
+    $scope.getActivityList();
 
 
     // 加载flag
