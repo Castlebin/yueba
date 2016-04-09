@@ -77,8 +77,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public ApiResponse logout(HttpServletRequest request)
-            throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public ApiResponse logout(HttpServletRequest request) {
         request.getSession().invalidate();
         return ApiResponse.returnSuccess();
     }
