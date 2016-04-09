@@ -28,7 +28,7 @@ public class ActivityController {
     }
 
     // 活动推荐
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/recommend", method = RequestMethod.GET)
     public ApiResponse recommend(@RequestParam(defaultValue = "0") int pageNum,
                                  @RequestParam(defaultValue = "10") int pageSize) {
 
