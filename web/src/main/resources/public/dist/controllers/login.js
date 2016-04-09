@@ -5,20 +5,26 @@ yuebaApp.controller('LoginController', ['$scope', '$http', '$q', 'UserService', 
 
     $scope.globalDefines = globalDefines;
 
-    console.log($scope.globalDefines);
     $scope.loginUser = {};
 
     $scope.login = function () {
         $http({
             method: 'POST',
-            url: '/login',
-            data: $scope.loginUser
+            url: '/api/user/login',
+            params: $scope.loginUser
         }).then(
             function (response) {
-                $location
+                var serverResponse = response.data;
+                if(serverResponse.status == 0){
+                    var userVo = serverResponse.data;
+                    UserService.setUser(userVo);
+                    $window.location.href='home.html';
+                }
+                else {
+                    $.alert('登录失败了');
+                }
             },
             function (response) {
-                $window.location.href='home.html';
                 $.alert('登录失败了');
             }
         );
