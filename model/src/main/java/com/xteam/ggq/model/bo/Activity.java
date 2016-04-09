@@ -6,6 +6,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -66,6 +68,9 @@ public class Activity extends BaseEntity {
 
     // 单位 米(m)
     private transient float distance;
+
+    // 标签
+    private transient Set<Tag> tags = new HashSet<>();
 
     @Version
     private int version;
