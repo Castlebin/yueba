@@ -26,6 +26,7 @@
                 <span class="icon icon-left"></span>
                 返回
             </a>
+
             <h1 class="title">发起活动</h1>
         </header>
         <nav class="bar bar-tab" ng-include="'partials/navbar.html'" ng-controller="NavBarController">
@@ -53,6 +54,7 @@
                                 <div class="item-input">
                                     <label class="label-switch">
                                         <input type="checkbox" ng-model="activity.open">
+
                                         <div class="checkbox"></div>
                                     </label>
                                 </div>
@@ -167,7 +169,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">图片</div>
                                 <div class="item-input">
-                                    <input type="file" nv-file-select="" uploader="uploader" />
+                                    <input type="file" nv-file-select="" uploader="uploader"/>
                                     <!--<input type="file" id="activity-file" multiple="multiple"/>-->
                                 </div>
                             </div>
