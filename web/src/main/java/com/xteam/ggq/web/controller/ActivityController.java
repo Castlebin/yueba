@@ -30,17 +30,38 @@ public class ActivityController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ApiResponse<Activity> save(Activity activity, HttpServletRequest request) {
-        String username = ((User) request.getSession().getAttribute("user")).getUsername();
-        activity.setUsername(username);
+    public ApiResponse<Activity> postActivity(Activity activity, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
 
-        return ApiResponse.returnSuccess(activityService.save(activity));
+        // 校验
+        if ( activity.getApplyEndTime().after(activity.getActivityBeginTime()) ) {
+            return ApiResponse.returnFail(-1, "活动开始时间应该晚于活动报名截止时间！");
+        }
+        if ( activity.getActivityBeginTime().after(activity.getActivityEndTime()) ) {
+            return ApiResponse.returnFail(-1, "活动开始时间应该晚于活动结束时间！");
+        }
+
+        return ApiResponse.returnSuccess(activityService.postActivity(activity, user));
     }
 
     @RequestMapping(value = "/apply", method = RequestMethod.POST)
     public ApiResponse apply(Long activityId, HttpServletRequest request) {
-        String username = ((User) request.getSession().getAttribute("user")).getUsername();
-        activityService.applyActivity(activityId, username);
+        User user = (User) request.getSession().getAttribute("user");
+        Activity activity = activityService.findActivity(activityId);
+
+        // 时间校验
+        if ( System.currentTimeMillis() > activity.getApplyEndTime().getTime() ) {
+            return ApiResponse.returnFail(-1, "报名已截止！");
+        }
+        // 人数校验
+        int maleCount = activity.getApplyMaleCount();
+        int femaleCount = activity.getApplyFemaleCount();
+        if ( (user.getGender() == User.Gender.MALE && (maleCount > femaleCount) )
+                || (user.getGender() == User.Gender.FAMALE && (femaleCount > maleCount) )) {
+            return ApiResponse.returnFail(-1, "报名人数性别比例不符，请稍后再试！");
+        }
+
+        activityService.applyActivity(activity, user);
 
         return ApiResponse.returnSuccess();
     }

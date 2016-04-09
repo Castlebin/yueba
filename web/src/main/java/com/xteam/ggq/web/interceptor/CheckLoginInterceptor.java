@@ -38,7 +38,7 @@ public class CheckLoginInterceptor implements HandlerInterceptor {
             Assert.notNull(user, "用户未登录！");
         } catch (Exception e) {
             response.setHeader(HEADER_CONTENT_TYPE, JSON_UTF8);
-            response.getWriter().write(JSON.toJSONString(ApiResponse.returnFail(-1, "用户未登录！")));
+            response.getWriter().write(JSON.toJSONString(ApiResponse.returnFail(1, "用户未登录！")));
             return false;
         }
 
