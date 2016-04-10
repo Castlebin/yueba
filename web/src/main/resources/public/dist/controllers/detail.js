@@ -36,6 +36,23 @@ yuebaApp.controller('DetailController', ['$scope', '$http', '$q', 'UserService',
         );
     };
 
+    $scope.getAvatar = function(avatar, gender) {
+        url = 'assets/img/male.png';
+        if(!avatar) {
+            if(gender == 'FEMALE') url = 'assets/img/female.png'
+        }
+        else {
+            url = avatar;
+        }
+        return url;
+    };
+
+    $scope.getGenderMark = function(gender) {
+        url = 'assets/img/maleMark.png';
+        if(gender == 'FEMALE') url = 'assets/img/femaleMark.png';
+        return url;
+    };
+
     $scope.countTimer = function () {
         var currentTime = (new Date()).getTime();
         if(currentTime >= $scope.activity.applyEndTime){

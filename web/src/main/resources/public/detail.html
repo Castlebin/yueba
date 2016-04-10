@@ -81,7 +81,10 @@
                                             </div>
                                             <div class="item-after">
                                                 <span class="color-gray">
-                                                    已报名：<span ng-bind="activity.applyMaleCount||'0'"></span>男|<span ng-bind="activity.applyFemaleCount||'0'"></span>女
+                                                    已报名：
+                                                    <a href="#" class="open-about">
+                                                        <span ng-bind="activity.applyMaleCount||'0'"></span>男|<span ng-bind="activity.applyFemaleCount||'0'"></span>女
+                                                    </a>
                                                 </span>
                                             </div>
                                         </div>
@@ -118,7 +121,40 @@
                         <img class='card-cover' ng-src="{{activity.pic}}" alt="">
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- About Popup -->
+    <div class="popup popup-about">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-left close-popup" href="#">
+                <span class="icon icon-left"></span>
+                返回
+            </a>
+            <h1 class='title'>报名列表</h1>
+        </header>
+        <div class="content">
+            <div class="content-block">
+                <div class="list-block media-list inset">
+                    <ul>
+                        <li ng-repeat="userItem in activity.users">
+                            <a href="#" class="item-link item-content">
+                                <div class="item-media"><img ng-src="{{getAvatar(userItem.avatar,userItem.gender)}}" width="40"></div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title">
+                                            <span ng-bind="userItem.nickname"></span>
+                                            <img ng-src="{{getGenderMark(userItem.gender)}}" width="20">
+                                            <!--(<span ng-bind="globalDefines.trGender[userItem.gender]"></span>)-->
+                                        </div>
+                                    </div>
+                                    <!--<div class="item-subtitle" ng-bind="globalDefines.trGender[userItem.gender]"></div>-->
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -129,6 +165,10 @@
 <script type='text/javascript' src='assets/js/sm-extend.js' charset='utf-8'></script>
 <script>
     $.init();
+
+    $(document).on('click','.open-about', function () {
+        $.popup('.popup-about');
+    });
 </script>
 </body>
 </html>

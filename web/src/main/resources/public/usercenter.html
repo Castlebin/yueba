@@ -48,7 +48,7 @@
                                 <div class="item-media">
                                     <a href="javascript:;" class="file">
                                         <input type="file" id="activity-file" nv-file-select="" uploader="uploader" />
-                                        <img ng-src="{{user.avatar||'assets/img/avatar.png'}}" width="40" class="avatar">
+                                        <img ng-src="{{user.avatar||getAvatar(user.avatar, user.gender)}}" width="40" class="avatar">
                                     </a>
                                 </div>
                             </div>

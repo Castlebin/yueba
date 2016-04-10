@@ -23,6 +23,17 @@ yuebaApp.controller('UserCenterController', ['$scope', '$http', '$q', 'UserServi
 
     $scope.user = {};
 
+    $scope.getAvatar = function(avatar, gender) {
+        url = 'assets/img/male.png';
+        if(!avatar) {
+            if(gender == 'FEMALE') url = 'assets/img/female.png'
+        }
+        else {
+            url = avatar;
+        }
+        return url;
+    };
+
     $scope.search = function () {
         $http({
             method: 'GET',
