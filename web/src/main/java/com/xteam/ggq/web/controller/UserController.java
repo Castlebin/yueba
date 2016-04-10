@@ -30,8 +30,7 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ApiResponse<User> getUserInfo(HttpServletRequest request) {
-        String username = ((User) request.getSession().getAttribute("user")).getUsername();
-
+        String username = (String)request.getSession().getAttribute("username");
         return ApiResponse.returnSuccess(userService.findUser(username));
     }
 
@@ -57,7 +56,7 @@ public class UserController {
                 new Timestamp(TimeUtils.DATA_FORMAT_YYYY_MM_DD.parse(birthday).getTime()));
         userService.addUser(user);
 
-        request.getSession().setAttribute("user", user);
+        request.getSession().setAttribute("username", user.getUsername());
 
         return ApiResponse.returnSuccess(user);
     }
@@ -84,7 +83,7 @@ public class UserController {
             return ApiResponse.returnFail(-1, "用户名或密码不正确！");
         }
 
-        request.getSession().setAttribute("user", user);
+        request.getSession().setAttribute("username", user.getUsername());
 
         return ApiResponse.returnSuccess(user);
     }

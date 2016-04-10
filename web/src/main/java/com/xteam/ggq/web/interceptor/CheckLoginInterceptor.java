@@ -1,7 +1,6 @@
 package com.xteam.ggq.web.interceptor;
 
 import com.alibaba.fastjson.JSON;
-import com.xteam.ggq.model.bo.User;
 import com.xteam.ggq.web.annotation.DoNotNeedLogin;
 import com.xteam.ggq.web.controller.api.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +33,8 @@ public class CheckLoginInterceptor implements HandlerInterceptor {
                 return true;
             }
 
-            User user = (User) request.getSession().getAttribute("user");
-            Assert.notNull(user, "用户未登录！");
+            String username = (String)request.getSession().getAttribute("username");
+            Assert.hasText(username, "用户未登录！");
         } catch (Exception e) {
             response.setHeader(HEADER_CONTENT_TYPE, JSON_UTF8);
             response.getWriter().write(JSON.toJSONString(ApiResponse.returnFail(1, "用户未登录！")));
