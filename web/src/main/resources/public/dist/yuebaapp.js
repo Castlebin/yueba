@@ -68,9 +68,6 @@ yuebaApp.factory('authInterceptor', ['$location', '$window', '$rootScope', '$tim
     return {
         'request': function (config) {
             config.headers = config.headers || {};
-            //if ($window.sessionStorage.token) {
-            //    config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
-            //}
             return config;
         },
         'response': function (response) {
@@ -80,7 +77,7 @@ yuebaApp.factory('authInterceptor', ['$location', '$window', '$rootScope', '$tim
             if (angular.isObject(serverResponse) && serverResponse.status == 1) {
                 console.log('broadcast: unauthorized');
                 //$rootScope.$broadcast('unauthorized');
-                $.toast('登录超时，请重新登录');
+                $.toast('会话超时，请重新登录');
                 $timeout(function () {
                     $window.location.href = "login.html";
                 }, 1000);
@@ -88,16 +85,6 @@ yuebaApp.factory('authInterceptor', ['$location', '$window', '$rootScope', '$tim
             }
             return response || $q.when(response);
         }
-        //'responseError': function (response) {
-        //    console.log("authInterceptor responseError begin >>>>");
-        //    console.log(response);
-        //    console.log("authInterceptor responseError:" + response.status);
-        //    if (response.status === 401 || response.status === 302 || response.status === 419 ) {
-        //        $rootScope.$broadcast('unauthorized');
-        //    }
-        //    console.log("authInterceptor responseError end >>>>");
-        //    return response;
-        //}
     };
 }]);
 
@@ -190,17 +177,6 @@ yuebaApp.controller('NavBarController', ['$scope', '$http', '$location', '$windo
         $scope.currentUrl = url.split('?')[0];
         console.log($scope.currentUrl);
     }
-    //如果发现未登录，那么直接页面跳转，将转到登录页
-    //$rootScope.$on('unauthorized', function () {
-    //    console.log("!!! user unauthorized, session timeout!!! ");
-    //    $window.location.href = restApiRootUrl + "/login.html";
-    //});
-
-    // 登录账号处于已登录状态
-    //if(!$scope.operator || !$scope.isLogon){
-    //    window.location = restApiRootUrl + "/login.html";
-    //    return;
-    //}
 
     $scope.activePage = 'home';
 

@@ -30,6 +30,7 @@ yuebaApp.controller('PublishController', ['$scope', '$http', '$q', 'UserService'
         if(requiredFieldIsNull($scope.activity.activityAddress, '活动地点')) return;
         if(requiredFieldIsNull($scope.activity.title, '标题')) return;
         if(requiredFieldIsNull($scope.activity.description, '活动内容说明')) return;
+        if(requiredFieldIsNull($scope.activity.pic, '活动图片')) return;
 
         $http({
             method: 'POST',
