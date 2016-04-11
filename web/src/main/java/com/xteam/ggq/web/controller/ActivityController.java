@@ -116,7 +116,7 @@ public class ActivityController {
         User user = userService.findUser(username);
 
         // 校验
-        if ( !(activity.getPeopleLimit().intValue()> 0) ) {
+        if ( !(activity.getPeopleLimit() > 0) ) {
             return ApiResponse.returnFail(-1, "报名人数应该大于0！");
         }
         if (!activity.getActivityBeginTime().before(activity.getActivityEndTime())) {
